@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { onBeforeUnmount, onMounted, ref } from 'vue'
+
 type NavItem = {
   label: string
   target: string
@@ -12,13 +14,6 @@ type Stat = {
 type NarrativeCard = {
   title: string
   body: string
-}
-
-type FigureCard = {
-  title: string
-  copy: string
-  src: string
-  alt: string
 }
 
 type PipelineStep = {
@@ -48,6 +43,8 @@ const navigation: NavItem[] = [
   { label: 'Results', target: '#results' },
   { label: 'Abstract', target: '#abstract' },
 ]
+
+const activeSection = ref(navigation[0]?.target ?? '#overview')
 
 const heroStats: Stat[] = [
   { value: '5,000', label: 'QA pairs' },
@@ -85,27 +82,6 @@ const designSignals: NarrativeCard[] = [
   {
     title: 'Built to break shortcuts',
     body: 'Answer evidence appears late, distractors are semantically plausible, and text-only or unimodal baselines still fail to close the gap to human performance.',
-  },
-]
-
-const figureCards: FigureCard[] = [
-  {
-    title: 'Domain distribution',
-    copy: 'MMOU covers 10 major domains with especially strong representation in academic lectures, sports, travel, daily life, pranks, and film.',
-    src: '/images/mmou-domain-distribution.png',
-    alt: 'Donut chart showing the domain distribution of videos in MMOU.',
-  },
-  {
-    title: 'Skill distribution',
-    copy: 'Needle-in-the-haystack, referential grounding, temporal understanding, and sequential reasoning dominate the benchmark, but all 13 skills appear in the final set.',
-    src: '/images/mmou-skill-distribution.png',
-    alt: 'Donut chart showing the distribution of skill categories in MMOU.',
-  },
-  {
-    title: 'Answer evidence spread',
-    copy: 'The relative position of correct evidence covers the full video timeline, preventing models from overfitting to front-loaded cues.',
-    src: '/images/mmou-answer-position.png',
-    alt: 'Heatmap showing where correct answer evidence appears across the video timeline.',
   },
 ]
 
@@ -242,10 +218,35 @@ const openPaper = () => {
   }
 }
 
+const updateActiveSection = () => {
+  if (typeof window === 'undefined' || typeof document === 'undefined') {
+    return
+  }
+
+  const probe = window.innerHeight * 0.32
+  let currentTarget = navigation[0]?.target ?? '#overview'
+
+  for (const item of navigation) {
+    const section = document.querySelector<HTMLElement>(item.target)
+
+    if (!section) {
+      continue
+    }
+
+    if (section.getBoundingClientRect().top <= probe) {
+      currentTarget = item.target
+    }
+  }
+
+  activeSection.value = currentTarget
+}
+
 const jumpTo = (target: string) => {
   if (typeof document === 'undefined') {
     return
   }
+
+  activeSection.value = target
 
   document.querySelector(target)?.scrollIntoView({
     behavior: 'smooth',
@@ -254,6 +255,17 @@ const jumpTo = (target: string) => {
 }
 
 const scoreStyle = (score: number) => ({ width: `${score}%` })
+
+onMounted(() => {
+  updateActiveSection()
+  window.addEventListener('scroll', updateActiveSection, { passive: true })
+  window.addEventListener('resize', updateActiveSection)
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('scroll', updateActiveSection)
+  window.removeEventListener('resize', updateActiveSection)
+})
 </script>
 
 <template>
@@ -278,7 +290,8 @@ const scoreStyle = (score: number) => ({ width: `${score}%` })
               v-for="item in navigation"
               :key="item.target"
               type="button"
-              class="nav-link"
+              :class="['nav-link', { 'nav-link-active': activeSection === item.target }]"
+              :aria-current="activeSection === item.target ? 'page' : undefined"
               @click="jumpTo(item.target)"
             >
               {{ item.label }}
@@ -303,7 +316,7 @@ const scoreStyle = (score: number) => ({ width: `${score}%` })
 
       <main>
         <section id="hero" class="mx-auto max-w-7xl px-6 pb-16 pt-10 sm:px-8 lg:px-12 lg:pb-24 lg:pt-16">
-          <div class="grid items-center gap-10 lg:grid-cols-[0.98fr_1.02fr] lg:gap-14">
+          <div class="grid items-center gap-10 lg:grid-cols-[0.88fr_1.12fr] lg:gap-14">
             <div class="reveal space-y-8">
               <div class="space-y-4">
                 <UBadge
@@ -349,47 +362,53 @@ const scoreStyle = (score: number) => ({ width: `${score}%` })
               </div>
             </div>
 
-            <div class="reveal relative lg:min-h-[42rem]">
-              <div class="hero-aurora absolute inset-x-[12%] top-8 h-48 rounded-full blur-3xl" />
+            <div class="reveal relative space-y-4 lg:min-h-[42rem]">
+              <div class="hero-aurora absolute inset-x-[12%] top-10 h-48 rounded-full blur-3xl" />
               <div class="hero-ring absolute -left-8 top-16 h-24 w-24 rounded-full border border-[var(--border-strong)]" />
 
-              <UCard class="surface-card media-card relative overflow-hidden rounded-[36px] p-4 sm:p-5">
-                <img
-                  src="/images/mmou-hero.png"
-                  alt="Hero figure showing a long video strip, a benchmark question, and the performance gap between models on MMOU."
-                  class="h-full w-full rounded-[28px] object-cover"
-                >
-              </UCard>
-
-              <div class="floating-panel left-0 top-6 hidden max-w-xs lg:block">
-                <p class="text-[0.68rem] font-bold uppercase tracking-[0.3em] text-[var(--accent-strong)]">
-                  Why it is hard
-                </p>
-                <p class="mt-3 text-lg font-semibold text-[var(--ink)]">
-                  One answer can require temporal reasoning, referential grounding, and audio perception at once.
-                </p>
-              </div>
-
-              <div class="floating-panel floating-panel-alt -bottom-4 right-0 hidden w-[18rem] lg:block">
-                <p class="text-[0.68rem] font-bold uppercase tracking-[0.3em] text-[var(--accent-strong)]">
-                  Headline gap
-                </p>
-                <div class="mt-4 space-y-3">
-                  <div
-                    v-for="item in results.slice(0, 3)"
-                    :key="item.name"
-                    class="rounded-2xl border border-[var(--border)] bg-white/72 px-4 py-3"
+              <div class="relative z-10 space-y-4">
+                <UCard class="surface-card media-card relative overflow-hidden rounded-[36px] p-4 sm:p-5">
+                  <img
+                    src="/images/mmou-hero.png"
+                    alt="Hero figure showing a long video strip, a benchmark question, and the performance gap between models on MMOU."
+                    class="h-full w-full rounded-[28px] object-cover"
                   >
-                    <div class="mb-2 flex items-center justify-between gap-3">
-                      <p class="text-sm font-semibold text-[var(--ink)]">{{ item.name }}</p>
-                      <p class="text-sm font-bold text-[var(--ink)]">{{ item.score }}%</p>
-                    </div>
-                    <div class="score-track">
-                      <div :class="['score-fill', `score-fill--${item.tone}`]" :style="scoreStyle(item.score)" />
+                </UCard>
+
+                <UCard class="surface-card rounded-[28px] p-2">
+                  <div class="space-y-3 px-4 py-4">
+                    <p class="text-[0.68rem] font-bold uppercase tracking-[0.3em] text-[var(--accent-strong)]">
+                      Headline gap
+                    </p>
+                    <div class="grid gap-3 sm:grid-cols-3">
+                      <div
+                        v-for="item in results.slice(0, 3)"
+                        :key="item.name"
+                        class="rounded-2xl border border-[var(--border)] bg-white/72 px-4 py-3"
+                      >
+                        <div class="mb-2 flex items-center justify-between gap-3">
+                          <p class="text-sm font-semibold text-[var(--ink)]">{{ item.name }}</p>
+                          <p class="text-sm font-bold text-[var(--ink)]">{{ item.score }}%</p>
+                        </div>
+                        <div class="score-track">
+                          <div :class="['score-fill', `score-fill--${item.tone}`]" :style="scoreStyle(item.score)" />
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
+                </UCard>
               </div>
+
+              <UCard class="surface-card relative z-10 max-w-[34rem] rounded-[30px] p-2">
+                <div class="space-y-3 px-4 py-4 sm:px-5 sm:py-5">
+                  <p class="text-[0.68rem] font-bold uppercase tracking-[0.3em] text-[var(--accent-strong)]">
+                    Why it is hard
+                  </p>
+                  <p class="text-lg font-semibold leading-8 text-[var(--ink)] sm:text-xl sm:leading-9">
+                    One answer can require temporal reasoning, referential grounding, and audio perception at once.
+                  </p>
+                </div>
+              </UCard>
             </div>
           </div>
         </section>
@@ -483,17 +502,89 @@ const scoreStyle = (score: number) => ({ width: `${score}%` })
             </p>
           </div>
 
-          <div class="mt-10 grid gap-6 lg:grid-cols-3">
-            <UCard
-              v-for="figure in figureCards"
-              :key="figure.title"
-              class="surface-card media-card rounded-[30px] p-2"
-            >
+          <div class="mt-10 space-y-6">
+            <UCard class="surface-card media-card rounded-[34px] p-3">
+              <figure class="space-y-5 px-2 py-2">
+                <img
+                  src="/images/mmou-coverage-overview.png"
+                  alt="Full MMOU distribution figure from the paper showing domain coverage, task co-occurrence, answer positions, skill counts, and video duration."
+                  loading="lazy"
+                  class="w-full rounded-[26px] bg-white"
+                >
+                <figcaption class="grid gap-4 px-2 pb-2 lg:grid-cols-[1.15fr_0.85fr] lg:items-start">
+                  <div>
+                    <p class="text-2xl font-semibold tracking-[-0.03em] text-[var(--ink)]">Full benchmark distribution, at readable size.</p>
+                    <p class="mt-2 text-sm/7 text-[var(--muted)]">
+                      This is the same full-width figure treatment used in the LaTeX paper. It combines domain coverage, skill co-occurrence, relative answer position, task counts, and duration distribution into one overview instead of shrinking them into tiny equal-width cards.
+                    </p>
+                  </div>
+                  <div class="rounded-[24px] border border-[var(--border)] bg-[var(--surface-soft)] px-4 py-4">
+                    <p class="text-xs uppercase tracking-[0.26em] text-[var(--muted)]">Sizing rationale</p>
+                    <p class="mt-3 text-sm/7 text-[var(--muted)]">
+                      The source figure is wide in the paper and should stay wide on the site. The previous 3-card grid made the charts too small to read, especially the answer-position view.
+                    </p>
+                  </div>
+                </figcaption>
+              </figure>
+            </UCard>
+
+            <div class="grid gap-6 lg:grid-cols-2">
+              <UCard class="surface-card media-card rounded-[30px] p-2">
+                <figure class="space-y-4 px-4 py-5">
+                  <img
+                    src="/images/mmou-domain-distribution.png"
+                    alt="Donut chart showing the domain distribution of videos in MMOU."
+                    loading="lazy"
+                    class="w-full rounded-[24px] bg-white"
+                  >
+                  <figcaption>
+                    <p class="text-xl font-semibold tracking-[-0.03em] text-[var(--ink)]">Domain distribution</p>
+                    <p class="mt-2 text-sm/7 text-[var(--muted)]">
+                      MMOU covers 10 major domains with especially strong representation in academic lectures, sports, travel, daily life, pranks, and film.
+                    </p>
+                  </figcaption>
+                </figure>
+              </UCard>
+
+              <UCard class="surface-card media-card rounded-[30px] p-2">
+                <figure class="space-y-4 px-4 py-5">
+                  <img
+                    src="/images/mmou-skill-distribution.png"
+                    alt="Donut chart showing the distribution of skill categories in MMOU."
+                    loading="lazy"
+                    class="w-full rounded-[24px] bg-white"
+                  >
+                  <figcaption>
+                    <p class="text-xl font-semibold tracking-[-0.03em] text-[var(--ink)]">Skill distribution</p>
+                    <p class="mt-2 text-sm/7 text-[var(--muted)]">
+                      Needle-in-the-haystack, referential grounding, temporal understanding, and sequential reasoning dominate the benchmark, but all 13 skills appear in the final set.
+                    </p>
+                  </figcaption>
+                </figure>
+              </UCard>
+            </div>
+
+            <UCard class="surface-card media-card rounded-[30px] p-2">
               <figure class="space-y-4 px-4 py-5">
-                <img :src="figure.src" :alt="figure.alt" loading="lazy" class="w-full rounded-[24px] bg-white object-cover">
-                <figcaption>
-                  <p class="text-xl font-semibold tracking-[-0.03em] text-[var(--ink)]">{{ figure.title }}</p>
-                  <p class="mt-2 text-sm/7 text-[var(--muted)]">{{ figure.copy }}</p>
+                <img
+                  src="/images/mmou-answer-position.png"
+                  alt="Heatmap showing where correct answer evidence appears across the video timeline."
+                  loading="lazy"
+                  class="w-full rounded-[24px] bg-white"
+                >
+                <figcaption class="grid gap-4 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
+                  <div>
+                    <p class="text-xl font-semibold tracking-[-0.03em] text-[var(--ink)]">Answer evidence spread</p>
+                    <p class="mt-2 text-sm/7 text-[var(--muted)]">
+                      The relative position of correct evidence covers the full video timeline, preventing models from overfitting to front-loaded cues.
+                    </p>
+                  </div>
+                  <div class="rounded-[22px] border border-[var(--border)] bg-white/72 px-4 py-4">
+                    <p class="text-sm font-semibold text-[var(--ink)]">Actual asset ratio</p>
+                    <p class="mt-2 text-sm/7 text-[var(--muted)]">
+                      This image is 3766×868, so it needs a wide container. It should never be forced into the same narrow card width as the square donut charts.
+                    </p>
+                  </div>
                 </figcaption>
               </figure>
             </UCard>
@@ -543,22 +634,30 @@ const scoreStyle = (score: number) => ({ width: `${score}%` })
             </p>
           </div>
 
-          <div class="mt-10 grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
+          <div class="mt-10 space-y-6">
             <UCard class="surface-card media-card rounded-[34px] p-3">
               <figure class="space-y-4 px-2 py-2">
                 <img
                   src="/images/mmou-pipeline.png"
                   alt="Pipeline figure illustrating MMOU construction from skill curation to final benchmark release."
                   loading="lazy"
-                  class="w-full rounded-[26px] bg-white object-cover"
+                  class="w-full rounded-[26px] bg-white"
                 >
-                <figcaption class="px-2 pb-2 text-sm/7 text-[var(--muted)]">
-                  The paper pipeline moves from skill curation and domain selection to source-video collection, expert question writing, distractor generation, review, and final release packaging.
+                <figcaption class="grid gap-4 px-2 pb-2 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
+                  <div class="text-sm/7 text-[var(--muted)]">
+                    The paper pipeline moves from skill curation and domain selection to source-video collection, expert question writing, distractor generation, review, and final release packaging.
+                  </div>
+                  <div class="rounded-[22px] border border-[var(--border)] bg-[var(--surface-soft)] px-4 py-4">
+                    <p class="text-sm font-semibold text-[var(--ink)]">LaTeX placement</p>
+                    <p class="mt-2 text-sm/7 text-[var(--muted)]">
+                      In the paper this figure is rendered nearly full text width (`0.96\\textwidth`), so the website now gives it the same visual priority instead of squeezing it beside the step list.
+                    </p>
+                  </div>
                 </figcaption>
               </figure>
             </UCard>
 
-            <div class="grid gap-4">
+            <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
               <UCard
                 v-for="step in pipelineSteps"
                 :key="step.step"
@@ -588,7 +687,7 @@ const scoreStyle = (score: number) => ({ width: `${score}%` })
               </p>
             </div>
 
-            <div class="mt-10 grid gap-6 lg:grid-cols-[0.95fr_1.05fr]">
+            <div class="mt-10 grid gap-6 lg:grid-cols-[0.82fr_1.18fr]">
               <UCard class="surface-card-dark rounded-[32px] p-2">
                 <div class="space-y-5 px-4 py-5 sm:px-5">
                   <p class="text-[0.72rem] font-bold uppercase tracking-[0.28em] text-[var(--accent-soft)]">
@@ -638,7 +737,7 @@ const scoreStyle = (score: number) => ({ width: `${score}%` })
               </UCard>
             </div>
 
-            <div class="mt-6 grid gap-6 lg:grid-cols-[1.02fr_0.98fr]">
+            <div class="mt-6 grid gap-6 lg:grid-cols-2">
               <UCard class="surface-card-dark media-card rounded-[32px] p-3">
                 <figure class="space-y-4 px-2 py-2">
                   <img
@@ -656,44 +755,42 @@ const scoreStyle = (score: number) => ({ width: `${score}%` })
                 </figure>
               </UCard>
 
-              <UCard class="surface-card-dark rounded-[32px] p-3">
-                <div class="space-y-5 px-2 py-2">
-                  <figure class="space-y-4">
-                    <img
-                      src="/images/mmou-open-ended.png"
-                      alt="Heatmap showing open-ended evaluation scores by skill on MMOU."
-                      loading="lazy"
-                      class="w-full rounded-[26px] bg-white object-cover"
-                    >
-                    <figcaption class="px-2">
-                      <p class="text-xl font-semibold text-white">Open-ended evaluation stays hard.</p>
-                      <p class="mt-2 text-sm/7 text-white/62">
-                        Gemini 2.5 Pro leads the open-ended setting too, but correctness and completeness remain much weaker than fluency and clarity.
-                      </p>
-                    </figcaption>
-                  </figure>
+              <UCard class="surface-card-dark media-card rounded-[32px] p-3">
+                <figure class="space-y-4 px-2 py-2">
+                  <img
+                    src="/images/mmou-open-ended.png"
+                    alt="Heatmap showing open-ended evaluation scores by skill on MMOU."
+                    loading="lazy"
+                    class="w-full rounded-[26px] bg-white"
+                  >
+                  <figcaption class="px-2 pb-2">
+                    <p class="text-xl font-semibold text-white">Open-ended evaluation stays hard.</p>
+                    <p class="mt-2 text-sm/7 text-white/62">
+                      Gemini 2.5 Pro leads the open-ended setting too, but correctness and completeness remain much weaker than fluency and clarity.
+                    </p>
+                  </figcaption>
+                </figure>
+              </UCard>
+            </div>
 
-                  <div class="grid gap-3 sm:grid-cols-2">
-                    <div
-                      v-for="metric in openEndedMetrics"
-                      :key="metric.label"
-                      class="rounded-[22px] border border-white/10 bg-white/[0.04] px-4 py-4"
-                    >
-                      <p class="text-sm font-semibold text-white">{{ metric.label }}</p>
-                      <div class="mt-3 flex items-end justify-between gap-6">
-                        <div>
-                          <p class="text-xs uppercase tracking-[0.24em] text-white/42">Gemini 2.5 Pro</p>
-                          <p class="mt-1 text-2xl font-bold tracking-[-0.03em] text-white">{{ metric.gemini }}</p>
-                        </div>
-                        <div class="text-right">
-                          <p class="text-xs uppercase tracking-[0.24em] text-white/42">Qwen3-Omni-30B</p>
-                          <p class="mt-1 text-2xl font-bold tracking-[-0.03em] text-white">{{ metric.qwen }}</p>
-                        </div>
-                      </div>
-                    </div>
+            <div class="mt-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
+              <div
+                v-for="metric in openEndedMetrics"
+                :key="metric.label"
+                class="rounded-[22px] border border-white/10 bg-white/[0.04] px-4 py-4"
+              >
+                <p class="text-sm font-semibold text-white">{{ metric.label }}</p>
+                <div class="mt-3 flex items-end justify-between gap-6">
+                  <div>
+                    <p class="text-xs uppercase tracking-[0.24em] text-white/42">Gemini 2.5 Pro</p>
+                    <p class="mt-1 text-2xl font-bold tracking-[-0.03em] text-white">{{ metric.gemini }}</p>
+                  </div>
+                  <div class="text-right">
+                    <p class="text-xs uppercase tracking-[0.24em] text-white/42">Qwen3-Omni-30B</p>
+                    <p class="mt-1 text-2xl font-bold tracking-[-0.03em] text-white">{{ metric.qwen }}</p>
                   </div>
                 </div>
-              </UCard>
+              </div>
             </div>
           </div>
         </section>
