@@ -44,6 +44,19 @@ const navigation: NavItem[] = [
   { label: 'Abstract', target: '#abstract' },
 ]
 
+const colorModeSelectUi = {
+  base: 'mode-select-trigger',
+  value: 'mode-select-value',
+  placeholder: 'mode-select-placeholder',
+  leadingIcon: 'mode-select-icon',
+  trailingIcon: 'mode-select-icon',
+  itemLeadingIcon: 'mode-select-icon',
+  content: 'mode-select-content',
+  item: 'mode-select-item',
+} as const
+
+let previousScrollRestoration: ScrollRestoration | null = null
+
 const activeSection = ref(navigation[0]?.target ?? '#overview')
 
 const heroStats: Stat[] = [
@@ -256,13 +269,38 @@ const jumpTo = (target: string) => {
 
 const scoreStyle = (score: number) => ({ width: `${score}%` })
 
+const resetInitialScroll = () => {
+  if (typeof window === 'undefined') {
+    return
+  }
+
+  if ('scrollRestoration' in window.history) {
+    previousScrollRestoration = window.history.scrollRestoration
+    window.history.scrollRestoration = 'manual'
+  }
+
+  if (window.location.hash) {
+    return
+  }
+
+  requestAnimationFrame(() => {
+    window.scrollTo({ top: 0, left: 0 })
+    updateActiveSection()
+  })
+}
+
 onMounted(() => {
+  resetInitialScroll()
   updateActiveSection()
   window.addEventListener('scroll', updateActiveSection, { passive: true })
   window.addEventListener('resize', updateActiveSection)
 })
 
 onBeforeUnmount(() => {
+  if (typeof window !== 'undefined' && previousScrollRestoration) {
+    window.history.scrollRestoration = previousScrollRestoration
+  }
+
   window.removeEventListener('scroll', updateActiveSection)
   window.removeEventListener('resize', updateActiveSection)
 })
@@ -299,17 +337,17 @@ onBeforeUnmount(() => {
           </nav>
 
           <div class="flex items-center gap-2">
-            <UButton
-              color="neutral"
-              variant="outline"
-              class="button-fx rounded-full border-[var(--border-strong)] bg-white/68 px-4 text-sm font-semibold text-[var(--ink)]"
-              @click="jumpTo('#results')"
-            >
-              Results
-            </UButton>
-            <UButton color="neutral" class="button-fx rounded-full px-5 text-sm" @click="openPaper">
+            <UButton color="neutral" class="button-fx shrink-0 whitespace-nowrap rounded-full px-5 text-sm" @click="openPaper">
               Read Paper
             </UButton>
+            <UColorModeSelect
+              color="neutral"
+              variant="outline"
+              size="xs"
+              class="mode-select w-[6.75rem] sm:w-[7.25rem]"
+              :content="{ side: 'bottom', align: 'end', sideOffset: 10 }"
+              :ui="colorModeSelectUi"
+            />
           </div>
         </div>
       </header>
@@ -877,10 +915,19 @@ onBeforeUnmount(() => {
             </p>
           </div>
           <div class="flex flex-wrap items-center gap-3">
-            <button type="button" class="nav-link nav-link-strong" @click="jumpTo('#hero')">
+            <UButton
+              color="neutral"
+              variant="outline"
+              class="button-fx min-w-[8.75rem] justify-center whitespace-nowrap rounded-full border-[var(--border-strong)] bg-white/68 px-5 text-sm font-semibold text-[var(--ink)]"
+              @click="jumpTo('#hero')"
+            >
               Back to top
-            </button>
-            <UButton color="neutral" class="button-fx rounded-full px-5" @click="openPaper">
+            </UButton>
+            <UButton
+              color="neutral"
+              class="button-fx min-w-[8.75rem] justify-center whitespace-nowrap rounded-full px-5 text-sm"
+              @click="openPaper"
+            >
               Paper PDF
             </UButton>
           </div>
