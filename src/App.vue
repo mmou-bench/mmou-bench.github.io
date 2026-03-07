@@ -271,13 +271,13 @@ onBeforeUnmount(() => {
 <template>
   <UApp>
     <div class="site-shell">
-      <header class="sticky top-0 z-50 px-4 pt-4 sm:px-6 lg:px-8">
-        <div class="chrome-panel mx-auto flex max-w-7xl items-center justify-between gap-4 rounded-full px-4 py-3 sm:px-6">
-          <button type="button" class="flex items-center gap-3 text-left" @click="jumpTo('#hero')">
+      <header class="sticky top-0 z-50 px-4 pt-3 sm:px-6 lg:px-8">
+        <div class="chrome-panel mx-auto flex max-w-7xl items-center justify-between gap-3 rounded-full px-4 py-2 sm:px-6">
+          <button type="button" class="brand-button flex items-center gap-3 text-left" @click="jumpTo('#hero')">
             <img
               src="/images/mmou-logo.png"
               alt="MMOU logo"
-              class="h-11 w-11 rounded-full border border-white/55 bg-white/90 object-cover p-1 shadow-sm"
+              class="h-11 w-auto object-contain sm:h-12"
             >
             <div class="hidden sm:block">
               <p class="text-xs uppercase tracking-[0.32em] text-[var(--muted)]">MMOU</p>
@@ -301,13 +301,13 @@ onBeforeUnmount(() => {
           <div class="flex items-center gap-2">
             <UButton
               color="neutral"
-              variant="ghost"
-              class="rounded-full px-4 text-sm"
+              variant="outline"
+              class="button-fx rounded-full border-[var(--border-strong)] bg-white/68 px-4 text-sm font-semibold text-[var(--ink)]"
               @click="jumpTo('#results')"
             >
               Results
             </UButton>
-            <UButton color="neutral" class="rounded-full px-5 text-sm" @click="openPaper">
+            <UButton color="neutral" class="button-fx rounded-full px-5 text-sm" @click="openPaper">
               Read Paper
             </UButton>
           </div>
@@ -315,9 +315,22 @@ onBeforeUnmount(() => {
       </header>
 
       <main>
-        <section id="hero" class="mx-auto max-w-7xl px-6 pb-16 pt-10 sm:px-8 lg:px-12 lg:pb-24 lg:pt-16">
-          <div class="grid items-center gap-10 lg:grid-cols-[0.88fr_1.12fr] lg:gap-14">
-            <div class="reveal space-y-8">
+        <section id="hero" class="mx-auto max-w-7xl px-6 pb-12 pt-8 sm:px-8 lg:px-12 lg:pb-16 lg:pt-12">
+          <div class="hero-brand-lockup reveal mb-8 lg:mb-10">
+            <img
+              src="/images/mmou-logo.png"
+              alt="MMOU logo"
+              class="hero-brand-logo"
+            >
+            <div>
+              <h2 class="display-font hero-brand-title">
+                Massive Multi-Task Omni Understanding
+              </h2>
+            </div>
+          </div>
+
+          <div class="grid items-center gap-8 lg:grid-cols-[0.88fr_1.12fr] lg:gap-10">
+            <div class="reveal space-y-6">
               <div class="space-y-4">
                 <UBadge
                   color="neutral"
@@ -336,21 +349,21 @@ onBeforeUnmount(() => {
               </div>
 
               <div class="flex flex-wrap items-center gap-3">
-                <UButton size="xl" color="neutral" class="rounded-full px-6" @click="openPaper">
+                <UButton size="xl" color="neutral" class="button-fx rounded-full px-6" @click="openPaper">
                   Open the paper
                 </UButton>
                 <UButton
                   size="xl"
                   color="neutral"
                   variant="outline"
-                  class="rounded-full border-[var(--border-strong)] bg-white/60 px-6 text-[var(--ink)]"
+                  class="button-fx rounded-full border-[var(--border-strong)] bg-white/60 px-6 text-[var(--ink)]"
                   @click="jumpTo('#overview')"
                 >
                   Explore the benchmark
                 </UButton>
               </div>
 
-              <div class="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+              <div class="grid gap-2.5 sm:grid-cols-2 xl:grid-cols-3">
                 <div
                   v-for="stat in heroStats"
                   :key="stat.label"
@@ -362,12 +375,12 @@ onBeforeUnmount(() => {
               </div>
             </div>
 
-            <div class="reveal relative space-y-4 lg:min-h-[42rem]">
+            <div class="reveal relative space-y-3 lg:min-h-[40rem]">
               <div class="hero-aurora absolute inset-x-[12%] top-10 h-48 rounded-full blur-3xl" />
               <div class="hero-ring absolute -left-8 top-16 h-24 w-24 rounded-full border border-[var(--border-strong)]" />
 
-              <div class="relative z-10 space-y-4">
-                <UCard class="surface-card media-card relative overflow-hidden rounded-[36px] p-4 sm:p-5">
+              <div class="relative z-10 space-y-3">
+                <UCard class="surface-card media-card relative overflow-hidden rounded-[36px] p-3 sm:p-4">
                   <img
                     src="/images/mmou-hero.png"
                     alt="Hero figure showing a long video strip, a benchmark question, and the performance gap between models on MMOU."
@@ -376,11 +389,11 @@ onBeforeUnmount(() => {
                 </UCard>
 
                 <UCard class="surface-card rounded-[28px] p-2">
-                  <div class="space-y-3 px-4 py-4">
+                  <div class="space-y-3 px-4 py-3">
                     <p class="text-[0.68rem] font-bold uppercase tracking-[0.3em] text-[var(--accent-strong)]">
                       Headline gap
                     </p>
-                    <div class="grid gap-3 sm:grid-cols-3">
+                <div class="grid gap-2.5 sm:grid-cols-3">
                       <div
                         v-for="item in results.slice(0, 3)"
                         :key="item.name"
@@ -400,7 +413,7 @@ onBeforeUnmount(() => {
               </div>
 
               <UCard class="surface-card relative z-10 max-w-[34rem] rounded-[30px] p-2">
-                <div class="space-y-3 px-4 py-4 sm:px-5 sm:py-5">
+                <div class="space-y-3 px-4 py-3 sm:px-5 sm:py-4">
                   <p class="text-[0.68rem] font-bold uppercase tracking-[0.3em] text-[var(--accent-strong)]">
                     Why it is hard
                   </p>
@@ -413,7 +426,7 @@ onBeforeUnmount(() => {
           </div>
         </section>
 
-        <section id="overview" class="mx-auto max-w-7xl px-6 py-8 sm:px-8 lg:px-12 lg:py-12">
+        <section id="overview" class="mx-auto max-w-7xl px-6 py-6 sm:px-8 lg:px-12 lg:py-8">
           <div class="section-heading reveal">
             <UBadge color="neutral" variant="soft" class="section-badge">Overview</UBadge>
             <h2 class="display-font section-title">A benchmark designed to punish unimodal shortcuts.</h2>
@@ -422,13 +435,13 @@ onBeforeUnmount(() => {
             </p>
           </div>
 
-          <div class="mt-10 grid gap-6 lg:grid-cols-3">
+          <div class="mt-8 grid gap-4 lg:grid-cols-3">
             <UCard
               v-for="card in narrativeCards"
               :key="card.title"
               class="surface-card rounded-[30px] p-2"
             >
-              <div class="space-y-4 px-4 py-5">
+              <div class="space-y-4 px-4 py-4">
                 <p class="text-[0.72rem] font-bold uppercase tracking-[0.28em] text-[var(--accent-strong)]">
                   Signal
                 </p>
@@ -438,16 +451,16 @@ onBeforeUnmount(() => {
             </UCard>
           </div>
 
-          <div class="mt-8 grid gap-6 lg:grid-cols-[0.96fr_1.04fr]">
+          <div class="mt-6 grid gap-4 lg:grid-cols-[0.96fr_1.04fr]">
             <UCard class="surface-card rounded-[30px] p-2">
-              <div class="space-y-5 px-4 py-5">
+              <div class="space-y-4 px-4 py-4">
                 <p class="text-[0.72rem] font-bold uppercase tracking-[0.28em] text-[var(--accent-strong)]">
                   Core design
                 </p>
                 <h3 class="text-3xl font-semibold tracking-[-0.04em] text-[var(--ink)]">
                   MMOU forces models to ground answers in full-video evidence.
                 </h3>
-                <div class="grid gap-4 sm:grid-cols-3">
+                <div class="grid gap-3 sm:grid-cols-3">
                   <div
                     v-for="signal in designSignals"
                     :key="signal.title"
@@ -461,7 +474,7 @@ onBeforeUnmount(() => {
             </UCard>
 
             <UCard class="surface-card rounded-[30px] p-2">
-              <div class="space-y-5 px-4 py-5">
+              <div class="space-y-4 px-4 py-4">
                 <p class="text-[0.72rem] font-bold uppercase tracking-[0.28em] text-[var(--accent-strong)]">
                   Main claim
                 </p>
@@ -475,7 +488,7 @@ onBeforeUnmount(() => {
                 <p class="text-sm/7 text-[var(--muted)]">
                   That gap persists across domain shifts, long durations, multi-skill questions, and open-ended evaluation. MMOU is not a benchmark for isolated perception - it is a benchmark for synchronized audio-visual reasoning over long-form video.
                 </p>
-                <div class="rounded-[24px] border border-[var(--border)] bg-[var(--surface-soft)] px-5 py-4">
+                <div class="rounded-[24px] border border-[var(--border)] bg-[var(--surface-soft)] px-4 py-4">
                   <p class="text-xs uppercase tracking-[0.26em] text-[var(--muted)]">Dataset snapshot</p>
                   <div class="mt-4 grid gap-3 sm:grid-cols-2">
                     <div class="rounded-2xl bg-white/75 px-4 py-3">
@@ -493,7 +506,7 @@ onBeforeUnmount(() => {
           </div>
         </section>
 
-        <section id="coverage" class="mx-auto max-w-7xl px-6 py-14 sm:px-8 lg:px-12 lg:py-20">
+        <section id="coverage" class="mx-auto max-w-7xl px-6 py-10 sm:px-8 lg:px-12 lg:py-14">
           <div class="section-heading reveal">
             <UBadge color="neutral" variant="soft" class="section-badge">Coverage</UBadge>
             <h2 class="display-font section-title">Breadth in domains, depth in skills, spread across time.</h2>
@@ -502,35 +515,35 @@ onBeforeUnmount(() => {
             </p>
           </div>
 
-          <div class="mt-10 space-y-6">
-            <UCard class="surface-card media-card rounded-[34px] p-3">
-              <figure class="space-y-5 px-2 py-2">
+          <div class="mt-8 space-y-4">
+            <UCard class="surface-card media-card rounded-[34px] p-2">
+              <figure class="space-y-4 px-2 py-2">
                 <img
                   src="/images/mmou-coverage-overview.png"
                   alt="Full MMOU distribution figure from the paper showing domain coverage, task co-occurrence, answer positions, skill counts, and video duration."
                   loading="lazy"
                   class="w-full rounded-[26px] bg-white"
                 >
-                <figcaption class="grid gap-4 px-2 pb-2 lg:grid-cols-[1.15fr_0.85fr] lg:items-start">
+                <figcaption class="grid gap-3 px-2 pb-1 lg:grid-cols-[1.15fr_0.85fr] lg:items-start">
                   <div>
-                    <p class="text-2xl font-semibold tracking-[-0.03em] text-[var(--ink)]">Full benchmark distribution, at readable size.</p>
+                    <p class="text-2xl font-semibold tracking-[-0.03em] text-[var(--ink)]">Benchmark overview</p>
                     <p class="mt-2 text-sm/7 text-[var(--muted)]">
-                      This is the same full-width figure treatment used in the LaTeX paper. It combines domain coverage, skill co-occurrence, relative answer position, task counts, and duration distribution into one overview instead of shrinking them into tiny equal-width cards.
+                      This overview figure summarizes MMOU across domain coverage, task co-occurrence, answer localization, skill distribution, and video duration, giving a compact view of the benchmark’s breadth and structure.
                     </p>
                   </div>
                   <div class="rounded-[24px] border border-[var(--border)] bg-[var(--surface-soft)] px-4 py-4">
-                    <p class="text-xs uppercase tracking-[0.26em] text-[var(--muted)]">Sizing rationale</p>
+                    <p class="text-xs uppercase tracking-[0.26em] text-[var(--muted)]">Why It Matters</p>
                     <p class="mt-3 text-sm/7 text-[var(--muted)]">
-                      The source figure is wide in the paper and should stay wide on the site. The previous 3-card grid made the charts too small to read, especially the answer-position view.
+                      MMOU is designed to reflect long-form, multi-skill audio-visual reasoning rather than narrow shortcut solving, and this figure shows how that difficulty is distributed across the benchmark.
                     </p>
                   </div>
                 </figcaption>
               </figure>
             </UCard>
 
-            <div class="grid gap-6 lg:grid-cols-2">
+            <div class="grid gap-4 lg:grid-cols-2">
               <UCard class="surface-card media-card rounded-[30px] p-2">
-                <figure class="space-y-4 px-4 py-5">
+                <figure class="space-y-3 px-4 py-4">
                   <img
                     src="/images/mmou-domain-distribution.png"
                     alt="Donut chart showing the domain distribution of videos in MMOU."
@@ -547,7 +560,7 @@ onBeforeUnmount(() => {
               </UCard>
 
               <UCard class="surface-card media-card rounded-[30px] p-2">
-                <figure class="space-y-4 px-4 py-5">
+                <figure class="space-y-3 px-4 py-4">
                   <img
                     src="/images/mmou-skill-distribution.png"
                     alt="Donut chart showing the distribution of skill categories in MMOU."
@@ -565,14 +578,14 @@ onBeforeUnmount(() => {
             </div>
 
             <UCard class="surface-card media-card rounded-[30px] p-2">
-              <figure class="space-y-4 px-4 py-5">
+              <figure class="space-y-3 px-4 py-4">
                 <img
                   src="/images/mmou-answer-position.png"
                   alt="Heatmap showing where correct answer evidence appears across the video timeline."
                   loading="lazy"
                   class="w-full rounded-[24px] bg-white"
                 >
-                <figcaption class="grid gap-4 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
+                <figcaption class="grid gap-3 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
                   <div>
                     <p class="text-xl font-semibold tracking-[-0.03em] text-[var(--ink)]">Answer evidence spread</p>
                     <p class="mt-2 text-sm/7 text-[var(--muted)]">
@@ -580,9 +593,9 @@ onBeforeUnmount(() => {
                     </p>
                   </div>
                   <div class="rounded-[22px] border border-[var(--border)] bg-white/72 px-4 py-4">
-                    <p class="text-sm font-semibold text-[var(--ink)]">Actual asset ratio</p>
+                    <p class="text-sm font-semibold text-[var(--ink)]">Temporal coverage</p>
                     <p class="mt-2 text-sm/7 text-[var(--muted)]">
-                      This image is 3766×868, so it needs a wide container. It should never be forced into the same narrow card width as the square donut charts.
+                      Supporting evidence appears throughout the video timeline, including later segments, making long-horizon grounding and context retention central challenges on MMOU.
                     </p>
                   </div>
                 </figcaption>
@@ -590,9 +603,9 @@ onBeforeUnmount(() => {
             </UCard>
           </div>
 
-          <div class="mt-8 grid gap-6 lg:grid-cols-[0.8fr_1.2fr]">
+          <div class="mt-6 grid gap-4 lg:grid-cols-[0.8fr_1.2fr]">
             <UCard class="surface-card rounded-[30px] p-2">
-              <div class="space-y-5 px-4 py-5">
+              <div class="space-y-4 px-4 py-4">
                 <p class="text-[0.72rem] font-bold uppercase tracking-[0.28em] text-[var(--accent-strong)]">
                   Domains
                 </p>
@@ -608,7 +621,7 @@ onBeforeUnmount(() => {
             </UCard>
 
             <UCard class="surface-card rounded-[30px] p-2">
-              <div class="space-y-5 px-4 py-5">
+              <div class="space-y-4 px-4 py-4">
                 <p class="text-[0.72rem] font-bold uppercase tracking-[0.28em] text-[var(--accent-strong)]">
                   Skills
                 </p>
@@ -625,7 +638,7 @@ onBeforeUnmount(() => {
           </div>
         </section>
 
-        <section id="construction" class="mx-auto max-w-7xl px-6 py-14 sm:px-8 lg:px-12 lg:py-20">
+        <section id="construction" class="mx-auto max-w-7xl px-6 py-10 sm:px-8 lg:px-12 lg:py-14">
           <div class="section-heading reveal">
             <UBadge color="neutral" variant="soft" class="section-badge">Construction</UBadge>
             <h2 class="display-font section-title">From skill taxonomy to expert review, every stage is explicit.</h2>
@@ -634,36 +647,36 @@ onBeforeUnmount(() => {
             </p>
           </div>
 
-          <div class="mt-10 space-y-6">
-            <UCard class="surface-card media-card rounded-[34px] p-3">
-              <figure class="space-y-4 px-2 py-2">
+          <div class="mt-8 space-y-4">
+            <UCard class="surface-card media-card rounded-[34px] p-2">
+              <figure class="space-y-3 px-2 py-2">
                 <img
                   src="/images/mmou-pipeline.png"
                   alt="Pipeline figure illustrating MMOU construction from skill curation to final benchmark release."
                   loading="lazy"
                   class="w-full rounded-[26px] bg-white"
                 >
-                <figcaption class="grid gap-4 px-2 pb-2 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
+                <figcaption class="grid gap-3 px-2 pb-1 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
                   <div class="text-sm/7 text-[var(--muted)]">
                     The paper pipeline moves from skill curation and domain selection to source-video collection, expert question writing, distractor generation, review, and final release packaging.
                   </div>
                   <div class="rounded-[22px] border border-[var(--border)] bg-[var(--surface-soft)] px-4 py-4">
-                    <p class="text-sm font-semibold text-[var(--ink)]">LaTeX placement</p>
+                    <p class="text-sm font-semibold text-[var(--ink)]">Annotation standard</p>
                     <p class="mt-2 text-sm/7 text-[var(--muted)]">
-                      In the paper this figure is rendered nearly full text width (`0.96\\textwidth`), so the website now gives it the same visual priority instead of squeezing it beside the step list.
+                      Each stage reinforces cross-modal rigor, from domain selection and expert question writing to distractor construction, review, and final benchmark release.
                     </p>
                   </div>
                 </figcaption>
               </figure>
             </UCard>
 
-            <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+            <div class="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
               <UCard
                 v-for="step in pipelineSteps"
                 :key="step.step"
                 class="surface-card rounded-[28px] p-2"
               >
-                <div class="flex gap-4 px-4 py-4">
+                <div class="flex gap-3 px-4 py-3">
                   <div class="step-badge">{{ step.step }}</div>
                   <div class="space-y-2">
                     <p class="text-lg font-semibold tracking-[-0.02em] text-[var(--ink)]">{{ step.title }}</p>
@@ -675,7 +688,7 @@ onBeforeUnmount(() => {
           </div>
         </section>
 
-        <section id="results" class="mx-auto max-w-7xl px-6 py-14 sm:px-8 lg:px-12 lg:py-20">
+        <section id="results" class="mx-auto max-w-7xl px-6 py-10 sm:px-8 lg:px-12 lg:py-14">
           <div class="results-shell">
             <div class="section-heading section-heading-dark reveal">
               <UBadge color="neutral" variant="soft" class="section-badge section-badge-dark">Results</UBadge>
@@ -687,9 +700,9 @@ onBeforeUnmount(() => {
               </p>
             </div>
 
-            <div class="mt-10 grid gap-6 lg:grid-cols-[0.82fr_1.18fr]">
+            <div class="mt-8 grid gap-4 lg:grid-cols-[0.82fr_1.18fr]">
               <UCard class="surface-card-dark rounded-[32px] p-2">
-                <div class="space-y-5 px-4 py-5 sm:px-5">
+                <div class="space-y-4 px-4 py-4 sm:px-5">
                   <p class="text-[0.72rem] font-bold uppercase tracking-[0.28em] text-[var(--accent-soft)]">
                     Scoreboard
                   </p>
@@ -697,7 +710,7 @@ onBeforeUnmount(() => {
                     Best reported accuracy still stops far below human performance.
                   </h3>
 
-                  <div class="space-y-4">
+                  <div class="space-y-3">
                     <div
                       v-for="item in results"
                       :key="item.name"
@@ -737,9 +750,9 @@ onBeforeUnmount(() => {
               </UCard>
             </div>
 
-            <div class="mt-6 grid gap-6 lg:grid-cols-2">
-              <UCard class="surface-card-dark media-card rounded-[32px] p-3">
-                <figure class="space-y-4 px-2 py-2">
+            <div class="mt-5 grid gap-4 lg:grid-cols-2">
+              <UCard class="surface-card-dark media-card rounded-[32px] p-2">
+                <figure class="space-y-3 px-2 py-2">
                   <img
                     src="/images/mmou-late-evidence.png"
                     alt="Line chart showing that model accuracy drops as answer evidence appears later in long videos."
@@ -755,8 +768,8 @@ onBeforeUnmount(() => {
                 </figure>
               </UCard>
 
-              <UCard class="surface-card-dark media-card rounded-[32px] p-3">
-                <figure class="space-y-4 px-2 py-2">
+              <UCard class="surface-card-dark media-card rounded-[32px] p-2">
+                <figure class="space-y-3 px-2 py-2">
                   <img
                     src="/images/mmou-open-ended.png"
                     alt="Heatmap showing open-ended evaluation scores by skill on MMOU."
@@ -773,7 +786,7 @@ onBeforeUnmount(() => {
               </UCard>
             </div>
 
-            <div class="mt-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
+            <div class="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
               <div
                 v-for="metric in openEndedMetrics"
                 :key="metric.label"
@@ -795,10 +808,10 @@ onBeforeUnmount(() => {
           </div>
         </section>
 
-        <section id="abstract" class="mx-auto max-w-7xl px-6 pb-20 pt-8 sm:px-8 lg:px-12 lg:pb-28">
-          <div class="grid gap-6 lg:grid-cols-[0.92fr_1.08fr]">
+        <section id="abstract" class="mx-auto max-w-7xl px-6 pb-14 pt-6 sm:px-8 lg:px-12 lg:pb-16">
+          <div class="grid gap-4 lg:grid-cols-[0.92fr_1.08fr]">
             <UCard class="surface-card rounded-[32px] p-2">
-              <div class="space-y-5 px-4 py-5 sm:px-5">
+              <div class="space-y-4 px-4 py-4 sm:px-5">
                 <p class="text-[0.72rem] font-bold uppercase tracking-[0.28em] text-[var(--accent-strong)]">
                   Abstract
                 </p>
@@ -809,13 +822,13 @@ onBeforeUnmount(() => {
                   The benchmark contains 5,000 carefully curated questions over 2,628 long-form web videos with tightly coupled audio and visual content. It spans 13 core reasoning skills, diverse real-world domains, and intentionally difficult answer structures. Across more than 20 evaluated models, the paper shows that current systems still struggle to jointly reason over synchronized audio, visual detail, and long temporal context.
                 </p>
                 <div class="flex flex-wrap gap-3">
-                  <UButton color="neutral" class="rounded-full px-5" @click="openPaper">
+                  <UButton color="neutral" class="button-fx rounded-full px-5" @click="openPaper">
                     Read the full PDF
                   </UButton>
                   <UButton
                     color="neutral"
                     variant="outline"
-                    class="rounded-full border-[var(--border-strong)] bg-white/65 px-5 text-[var(--ink)]"
+                    class="button-fx rounded-full border-[var(--border-strong)] bg-white/65 px-5 text-[var(--ink)]"
                     @click="jumpTo('#construction')"
                   >
                     See the pipeline
@@ -825,11 +838,11 @@ onBeforeUnmount(() => {
             </UCard>
 
             <UCard class="surface-card rounded-[32px] p-2">
-              <div class="space-y-5 px-4 py-5 sm:px-5">
+              <div class="space-y-4 px-4 py-4 sm:px-5">
                 <p class="text-[0.72rem] font-bold uppercase tracking-[0.28em] text-[var(--accent-strong)]">
                   Release scope
                 </p>
-                <div class="grid gap-4 sm:grid-cols-2">
+                <div class="grid gap-3 sm:grid-cols-2">
                   <div class="rounded-[24px] border border-[var(--border)] bg-white/72 px-4 py-4">
                     <p class="text-lg font-semibold tracking-[-0.02em] text-[var(--ink)]">What the paper contributes</p>
                     <p class="mt-2 text-sm/7 text-[var(--muted)]">
@@ -843,7 +856,7 @@ onBeforeUnmount(() => {
                     </p>
                   </div>
                 </div>
-                <div class="rounded-[26px] border border-[var(--border)] bg-[var(--surface-soft)] px-5 py-5">
+                <div class="rounded-[26px] border border-[var(--border)] bg-[var(--surface-soft)] px-4 py-4">
                   <p class="text-xs uppercase tracking-[0.26em] text-[var(--muted)]">Fast summary</p>
                   <p class="mt-3 text-lg/8 text-[var(--ink)]">
                     MMOU is not another short-clip leaderboard. It is a benchmark for models that need to watch, listen, localize, compare, remember, and infer over long, noisy, real-world video.
@@ -855,19 +868,19 @@ onBeforeUnmount(() => {
         </section>
       </main>
 
-      <footer class="mx-auto max-w-7xl px-6 pb-10 sm:px-8 lg:px-12">
-        <div class="footer-panel flex flex-col gap-5 rounded-[28px] px-6 py-6 sm:flex-row sm:items-center sm:justify-between">
+      <footer class="mx-auto max-w-7xl px-6 pb-8 sm:px-8 lg:px-12">
+        <div class="footer-panel flex flex-col gap-4 rounded-[28px] px-5 py-5 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <p class="text-xs uppercase tracking-[0.28em] text-[var(--muted)]">MMOU paper site</p>
+            <p class="text-xs uppercase tracking-[0.28em] text-[var(--muted)]">MMOU</p>
             <p class="mt-2 text-sm text-[var(--muted)]">
-              Built from the local paper sources and figures in this repository.
+              Massive Multi-Task Omni Understanding for long and complex real-world video reasoning.
             </p>
           </div>
           <div class="flex flex-wrap items-center gap-3">
             <button type="button" class="nav-link nav-link-strong" @click="jumpTo('#hero')">
               Back to top
             </button>
-            <UButton color="neutral" class="rounded-full px-5" @click="openPaper">
+            <UButton color="neutral" class="button-fx rounded-full px-5" @click="openPaper">
               Paper PDF
             </UButton>
           </div>
