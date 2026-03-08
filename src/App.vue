@@ -23,7 +23,7 @@ const navigation: NavItem[] = [
   { label: 'Abstract', target: '#abstract' },
   { label: 'Figure', target: '#figure-1' },
   { label: 'Benchmark', target: '#benchmark' },
-  { label: 'Results', target: '#results' },
+  { label: 'Leaderboard', target: '#leaderboard' },
 ]
 
 const colorModeSelectUi = {
@@ -258,16 +258,20 @@ onBeforeUnmount(() => {
       <main class="pt-[5.75rem] sm:pt-24 lg:pt-28">
         <section id="abstract"
           class="mx-auto max-w-7xl scroll-mt-28 px-6 pb-8 pt-4 sm:px-8 sm:pt-5 lg:scroll-mt-32 lg:px-12 lg:pb-10 lg:pt-6">
-          <div class="hero-brand-lockup reveal mb-6 lg:mb-8">
-            <img src="/images/mmou-logo.png" alt="MMOU logo" class="hero-brand-logo">
-            <h1 class="display-font hero-brand-title">
-              Massive Multi-Task Omni Understanding
-            </h1>
-          </div>
-
           <div class="mx-auto max-w-5xl">
             <UCard class="surface-card rounded-[34px] p-2">
               <div class="space-y-5 px-4 py-5 sm:px-6 sm:py-6">
+                <div class="flex items-start gap-4">
+                  <img src="/images/mmou-logo.png" alt="MMOU logo" class="h-14 w-auto object-contain sm:h-16">
+                  <div class="min-w-0">
+                    <p class="text-[0.72rem] font-bold uppercase tracking-[0.3em] text-[var(--accent-strong)]">
+                      MMOU
+                    </p>
+                    <h1 class="display-font mt-2 text-4xl leading-[0.96] tracking-[-0.04em] text-[var(--ink)] sm:text-5xl">
+                      Massive Multi-Task Omni Understanding
+                    </h1>
+                  </div>
+                </div>
                 <p class="text-[0.72rem] font-bold uppercase tracking-[0.3em] text-[var(--accent-strong)]">
                   Abstract
                 </p>
@@ -341,8 +345,8 @@ onBeforeUnmount(() => {
             <UBadge color="neutral" variant="soft" class="section-badge">Benchmark</UBadge>
             <h2 class="display-font section-title">Benchmark overview</h2>
             <p class="section-copy">
-              MMOU combines long-form video duration, broad domain coverage, and multi-skill question design to measure
-              real audio-visual understanding rather than short-context pattern matching.
+              MMOU combines long-form video duration, broad domain coverage, and multi-skill question design in one
+              benchmark for real audio-visual understanding.
             </p>
           </div>
 
@@ -353,161 +357,90 @@ onBeforeUnmount(() => {
             </div>
           </div>
 
-          <div class="mt-4 space-y-4">
-            <UCard class="surface-card media-card rounded-[34px] p-2">
-              <figure class="space-y-4 px-2 py-2">
-                <img src="/images/mmou-coverage-overview.png"
-                  alt="Benchmark overview figure showing MMOU domain coverage, skill co-occurrence, answer position, task counts, and duration distribution."
-                  loading="lazy" class="w-full rounded-[26px] bg-white">
-                <figcaption class="grid gap-3 px-2 pb-1 lg:grid-cols-[1.15fr_0.85fr] lg:items-start">
-                  <div>
-                    <p class="text-2xl font-semibold tracking-[-0.03em] text-[var(--ink)]">Coverage and benchmark structure</p>
+          <div class="mt-4 grid gap-4 lg:grid-cols-2">
+            <UCard class="surface-card media-card rounded-[30px] p-2">
+              <div class="space-y-4 px-4 py-4">
+                <figure class="space-y-3">
+                  <img src="/images/mmou-domain-distribution.png"
+                    alt="Donut chart showing the distribution of MMOU videos across major domains." loading="lazy"
+                    class="w-full rounded-[24px] bg-white">
+                  <figcaption>
+                    <p class="text-xl font-semibold tracking-[-0.03em] text-[var(--ink)]">Domains</p>
                     <p class="mt-2 text-sm/7 text-[var(--muted)]">
-                      This overview figure summarizes how MMOU distributes its questions across domains, reasoning
-                      skills, answer positions, task counts, and long-video durations.
+                      MMOU spans academic lectures, sports, travel, games, daily-life footage, pranks, film,
+                      animation, music, and news.
                     </p>
-                  </div>
-                  <div class="rounded-[24px] border border-[var(--border)] bg-[var(--surface-soft)] px-4 py-4">
-                    <p class="text-xs uppercase tracking-[0.26em] text-[var(--muted)]">Design signal</p>
-                    <p class="mt-3 text-sm/7 text-[var(--muted)]">
-                      Evidence is distributed across the full video timeline, and many questions combine multiple skills
-                      at once instead of isolating a single cue.
-                    </p>
-                  </div>
-                </figcaption>
-              </figure>
+                  </figcaption>
+                </figure>
+                <div class="chip-grid">
+                  <span v-for="domain in domains" :key="domain" class="info-chip">
+                    {{ domain }}
+                  </span>
+                </div>
+              </div>
             </UCard>
 
-            <div class="grid gap-4 lg:grid-cols-2">
-              <UCard class="surface-card media-card rounded-[30px] p-2">
-                <div class="space-y-4 px-4 py-4">
-                  <figure class="space-y-3">
-                    <img src="/images/mmou-domain-distribution.png"
-                      alt="Donut chart showing the distribution of MMOU videos across major domains." loading="lazy"
-                      class="w-full rounded-[24px] bg-white">
-                    <figcaption>
-                      <p class="text-xl font-semibold tracking-[-0.03em] text-[var(--ink)]">Domains</p>
-                      <p class="mt-2 text-sm/7 text-[var(--muted)]">
-                        MMOU spans academic lectures, sports, travel, games, daily-life footage, pranks, film,
-                        animation, music, and news.
-                      </p>
-                    </figcaption>
-                  </figure>
-                  <div class="chip-grid">
-                    <span v-for="domain in domains" :key="domain" class="info-chip">
-                      {{ domain }}
-                    </span>
-                  </div>
+            <UCard class="surface-card media-card rounded-[30px] p-2">
+              <div class="space-y-4 px-4 py-4">
+                <figure class="space-y-3">
+                  <img src="/images/mmou-skill-distribution.png"
+                    alt="Donut chart showing the distribution of MMOU reasoning skills." loading="lazy"
+                    class="w-full rounded-[24px] bg-white">
+                  <figcaption>
+                    <p class="text-xl font-semibold tracking-[-0.03em] text-[var(--ink)]">Skills</p>
+                    <p class="mt-2 text-sm/7 text-[var(--muted)]">
+                      Questions cover 13 reasoning skills, with multiple skills often active in the same example.
+                    </p>
+                  </figcaption>
+                </figure>
+                <div class="chip-grid chip-grid-wide">
+                  <span v-for="skill in skills" :key="skill" class="info-chip info-chip-wide">
+                    {{ skill }}
+                  </span>
                 </div>
-              </UCard>
-
-              <UCard class="surface-card media-card rounded-[30px] p-2">
-                <div class="space-y-4 px-4 py-4">
-                  <figure class="space-y-3">
-                    <img src="/images/mmou-skill-distribution.png"
-                      alt="Donut chart showing the distribution of MMOU reasoning skills." loading="lazy"
-                      class="w-full rounded-[24px] bg-white">
-                    <figcaption>
-                      <p class="text-xl font-semibold tracking-[-0.03em] text-[var(--ink)]">Skills</p>
-                      <p class="mt-2 text-sm/7 text-[var(--muted)]">
-                        Questions cover 13 reasoning skills, with multiple skills often active in the same example.
-                      </p>
-                    </figcaption>
-                  </figure>
-                  <div class="chip-grid chip-grid-wide">
-                    <span v-for="skill in skills" :key="skill" class="info-chip info-chip-wide">
-                      {{ skill }}
-                    </span>
-                  </div>
-                </div>
-              </UCard>
-            </div>
+              </div>
+            </UCard>
           </div>
         </section>
 
-        <section id="results"
+        <section id="leaderboard"
           class="mx-auto max-w-7xl scroll-mt-28 px-6 py-8 sm:px-8 lg:scroll-mt-32 lg:px-12 lg:py-10">
           <div class="results-shell">
             <div class="section-heading section-heading-dark reveal">
-              <UBadge color="neutral" variant="soft" class="section-badge section-badge-dark">Results</UBadge>
+              <UBadge color="neutral" variant="soft" class="section-badge section-badge-dark">Leaderboard</UBadge>
               <h2 class="display-font section-title text-white">
-                Leaderboard and diagnostic results
+                Reported accuracy on MMOU
               </h2>
               <p class="section-copy text-white/72">
-                Human performance remains clearly ahead of the best reported models, and skill-level analyses show that
-                long-horizon multimodal reasoning is still an open problem.
+                Human performance remains clearly ahead of the best reported models, with the strongest closed-source
+                and open-source systems still leaving a large gap on long-form omni-modal reasoning.
               </p>
             </div>
 
-            <div class="mt-8 grid gap-4 lg:grid-cols-[0.84fr_1.16fr]">
-              <UCard class="surface-card-dark rounded-[32px] p-2">
-                <div class="space-y-4 px-4 py-4 sm:px-5">
-                  <p class="text-[0.72rem] font-bold uppercase tracking-[0.28em] text-[var(--accent-soft)]">
-                    Leaderboard
-                  </p>
-                  <h3 class="text-3xl font-semibold tracking-[-0.04em] text-white">
-                    Best reported accuracy remains far below human performance.
-                  </h3>
+            <UCard class="surface-card-dark mt-8 rounded-[32px] p-2">
+              <div class="space-y-4 px-4 py-4 sm:px-5">
+                <h3 class="text-3xl font-semibold tracking-[-0.04em] text-white">
+                  Best reported accuracy remains far below human performance.
+                </h3>
 
-                  <div class="space-y-3">
-                    <div v-for="item in results" :key="item.name"
-                      class="rounded-[24px] border border-white/10 bg-white/[0.04] px-4 py-4">
-                      <div class="flex items-center justify-between gap-4">
-                        <div>
-                          <p class="text-base font-semibold text-white">{{ item.name }}</p>
-                          <p class="text-sm text-white/55">{{ item.group }}</p>
-                        </div>
-                        <p class="text-xl font-bold tracking-[-0.03em] text-white">{{ item.score }}%</p>
+                <div class="space-y-3">
+                  <div v-for="item in results" :key="item.name"
+                    class="rounded-[24px] border border-white/10 bg-white/[0.04] px-4 py-4">
+                    <div class="flex items-center justify-between gap-4">
+                      <div>
+                        <p class="text-base font-semibold text-white">{{ item.name }}</p>
+                        <p class="text-sm text-white/55">{{ item.group }}</p>
                       </div>
-                      <div class="mt-3 score-track score-track-dark">
-                        <div :class="['score-fill', `score-fill--${item.tone}`]" :style="scoreStyle(item.score)" />
-                      </div>
-                      <p class="mt-3 text-sm/7 text-white/62">{{ item.note }}</p>
+                      <p class="text-xl font-bold tracking-[-0.03em] text-white">{{ item.score }}%</p>
                     </div>
+                    <div class="mt-3 score-track score-track-dark">
+                      <div :class="['score-fill', `score-fill--${item.tone}`]" :style="scoreStyle(item.score)" />
+                    </div>
+                    <p class="mt-3 text-sm/7 text-white/62">{{ item.note }}</p>
                   </div>
                 </div>
-              </UCard>
-
-              <UCard class="surface-card-dark media-card rounded-[32px] p-3">
-                <figure class="space-y-4 px-2 py-2">
-                  <img src="/images/mmou-radar.png" alt="Radar chart comparing model performance across MMOU reasoning skills."
-                    loading="lazy" class="w-full rounded-[26px] bg-white object-cover">
-                  <figcaption class="px-2 pb-2">
-                    <p class="text-xl font-semibold text-white">Skill-wise performance remains uneven.</p>
-                    <p class="mt-2 text-sm/7 text-white/62">
-                      Even strong omni models remain inconsistent on counting, temporal understanding, and
-                      needle-in-the-haystack reasoning.
-                    </p>
-                  </figcaption>
-                </figure>
-              </UCard>
-            </div>
-
-            <div class="mt-5">
-              <UCard class="surface-card-dark media-card rounded-[32px] p-2">
-                <figure class="space-y-3 px-2 py-2">
-                  <img src="/images/mmou-late-evidence.png"
-                    alt="Chart showing model accuracy dropping as answer evidence appears later in long videos."
-                    loading="lazy" class="w-full rounded-[26px] bg-white object-cover">
-                  <figcaption class="grid gap-3 px-2 pb-2 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
-                    <div>
-                      <p class="text-xl font-semibold text-white">Late evidence remains a major failure mode.</p>
-                      <p class="mt-2 text-sm/7 text-white/62">
-                        Accuracy drops as relevant evidence appears later in the video, exposing a persistent weakness
-                        in long-range context retention.
-                      </p>
-                    </div>
-                    <div class="rounded-[22px] border border-white/10 bg-white/[0.04] px-4 py-4">
-                      <p class="text-sm font-semibold text-white">Key takeaway</p>
-                      <p class="mt-2 text-sm/7 text-white/62">
-                        Models that handle short-context perception well still degrade when MMOU requires sustained
-                        memory and delayed evidence integration.
-                      </p>
-                    </div>
-                  </figcaption>
-                </figure>
-              </UCard>
-            </div>
+              </div>
+            </UCard>
           </div>
         </section>
       </main>
