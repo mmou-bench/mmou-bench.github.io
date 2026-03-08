@@ -93,7 +93,7 @@ const designSignals: NarrativeCard[] = [
     body: 'Each question averages three distinct skills, forcing models to combine temporal reasoning, referential grounding, context, inference, counting, and more in one pass.',
   },
   {
-    title: 'Built to break shortcuts',
+    title: 'Designed to resist shortcuts',
     body: 'Answer evidence appears late, distractors are semantically plausible, and text-only or unimodal baselines still fail to close the gap to human performance.',
   },
 ]
@@ -227,7 +227,7 @@ const openEndedMetrics: OpenEndedMetric[] = [
 
 const openPaper = () => {
   if (typeof window !== 'undefined') {
-    window.open('/downloads/mmou-paper.pdf', '_blank', 'noopener,noreferrer')
+    window.open('/mmou.pdf', '_blank', 'noopener,noreferrer')
   }
 }
 
@@ -310,13 +310,10 @@ onBeforeUnmount(() => {
   <UApp>
     <div class="site-shell">
       <header class="sticky top-0 z-50 px-4 pt-3 sm:px-6 lg:px-8">
-        <div class="chrome-panel mx-auto flex max-w-7xl items-center justify-between gap-3 rounded-full px-4 py-2 sm:px-6">
+        <div
+          class="chrome-panel mx-auto flex max-w-7xl items-center justify-between gap-3 rounded-full px-4 py-2 sm:px-6">
           <button type="button" class="brand-button flex items-center gap-3 text-left" @click="jumpTo('#hero')">
-            <img
-              src="/images/mmou-logo.png"
-              alt="MMOU logo"
-              class="h-11 w-auto object-contain sm:h-12"
-            >
+            <img src="/images/mmou-logo.png" alt="MMOU logo" class="h-11 w-auto object-contain sm:h-12">
             <div class="hidden sm:block">
               <p class="text-xs uppercase tracking-[0.32em] text-[var(--muted)]">MMOU</p>
               <p class="text-sm font-semibold text-[var(--ink)]">Massive Multi-Task Omni Understanding</p>
@@ -324,30 +321,20 @@ onBeforeUnmount(() => {
           </button>
 
           <nav class="hidden items-center gap-2 lg:flex">
-            <button
-              v-for="item in navigation"
-              :key="item.target"
-              type="button"
+            <button v-for="item in navigation" :key="item.target" type="button"
               :class="['nav-link', { 'nav-link-active': activeSection === item.target }]"
-              :aria-current="activeSection === item.target ? 'page' : undefined"
-              @click="jumpTo(item.target)"
-            >
+              :aria-current="activeSection === item.target ? 'page' : undefined" @click="jumpTo(item.target)">
               {{ item.label }}
             </button>
           </nav>
 
           <div class="flex items-center gap-2">
-            <UButton color="neutral" class="button-fx shrink-0 whitespace-nowrap rounded-full px-5 text-sm" @click="openPaper">
-              Read Paper
+            <UButton color="neutral" class="button-fx shrink-0 whitespace-nowrap rounded-full px-5 text-sm"
+              @click="openPaper">
+              Paper PDF
             </UButton>
-            <UColorModeSelect
-              color="neutral"
-              variant="outline"
-              size="xs"
-              class="mode-select w-[6.75rem] sm:w-[7.25rem]"
-              :content="{ side: 'bottom', align: 'end', sideOffset: 10 }"
-              :ui="colorModeSelectUi"
-            />
+            <UColorModeSelect color="neutral" variant="outline" size="xs" class="mode-select w-[6.75rem] sm:w-[7.25rem]"
+              :content="{ side: 'bottom', align: 'end', sideOffset: 10 }" :ui="colorModeSelectUi" />
           </div>
         </div>
       </header>
@@ -355,11 +342,7 @@ onBeforeUnmount(() => {
       <main>
         <section id="hero" class="mx-auto max-w-7xl px-6 pb-12 pt-8 sm:px-8 lg:px-12 lg:pb-16 lg:pt-12">
           <div class="hero-brand-lockup reveal mb-8 lg:mb-10">
-            <img
-              src="/images/mmou-logo.png"
-              alt="MMOU logo"
-              class="hero-brand-logo"
-            >
+            <img src="/images/mmou-logo.png" alt="MMOU logo" class="hero-brand-logo">
             <div>
               <h2 class="display-font hero-brand-title">
                 Massive Multi-Task Omni Understanding
@@ -370,43 +353,34 @@ onBeforeUnmount(() => {
           <div class="grid items-center gap-8 lg:grid-cols-[0.88fr_1.12fr] lg:gap-10">
             <div class="reveal space-y-6">
               <div class="space-y-4">
-                <UBadge
-                  color="neutral"
-                  variant="soft"
-                  size="lg"
-                  class="rounded-full border border-white/60 bg-white/80 px-4 py-1 text-[0.72rem] uppercase tracking-[0.28em] text-[var(--muted)]"
-                >
-                  New benchmark paper
+                <UBadge color="neutral" variant="soft" size="lg"
+                  class="rounded-full border border-white/60 bg-white/80 px-4 py-1 text-[0.72rem] uppercase tracking-[0.28em] text-[var(--muted)]">
+                  Research paper
                 </UBadge>
-                <h1 class="display-font max-w-4xl text-5xl leading-[0.92] tracking-[-0.04em] text-[var(--ink)] sm:text-6xl lg:text-7xl">
+                <h1
+                  class="display-font max-w-4xl text-5xl leading-[0.92] tracking-[-0.04em] text-[var(--ink)] sm:text-6xl lg:text-7xl">
                   Long, complex, real-world video reasoning still breaks frontier multimodal models.
                 </h1>
                 <p class="max-w-2xl text-base/8 text-[var(--muted)] sm:text-lg/8">
-                  MMOU is a large-scale benchmark for audio-visual reasoning over long web videos. It tests whether models can jointly use sound, vision, context, and temporal evidence instead of relying on short clips or shallow shortcuts.
+                  MMOU is a large-scale benchmark for audio-visual reasoning over long web videos. It tests whether
+                  models can jointly use sound, vision, context, and temporal evidence instead of relying on short clips
+                  or shallow shortcuts.
                 </p>
               </div>
 
               <div class="flex flex-wrap items-center gap-3">
                 <UButton size="xl" color="neutral" class="button-fx rounded-full px-6" @click="openPaper">
-                  Open the paper
+                  Read the paper
                 </UButton>
-                <UButton
-                  size="xl"
-                  color="neutral"
-                  variant="outline"
+                <UButton size="xl" color="neutral" variant="outline"
                   class="button-fx rounded-full border-[var(--border-strong)] bg-white/60 px-6 text-[var(--ink)]"
-                  @click="jumpTo('#overview')"
-                >
+                  @click="jumpTo('#overview')">
                   Explore the benchmark
                 </UButton>
               </div>
 
               <div class="grid gap-2.5 sm:grid-cols-2 xl:grid-cols-3">
-                <div
-                  v-for="stat in heroStats"
-                  :key="stat.label"
-                  class="metric-pill reveal rounded-[24px] px-4 py-4"
-                >
+                <div v-for="stat in heroStats" :key="stat.label" class="metric-pill reveal rounded-[24px] px-4 py-4">
                   <p class="text-2xl font-extrabold tracking-[-0.04em] text-[var(--ink)]">{{ stat.value }}</p>
                   <p class="mt-1 text-sm font-medium text-[var(--muted)]">{{ stat.label }}</p>
                 </div>
@@ -415,28 +389,24 @@ onBeforeUnmount(() => {
 
             <div class="reveal relative space-y-3 lg:min-h-[40rem]">
               <div class="hero-aurora absolute inset-x-[12%] top-10 h-48 rounded-full blur-3xl" />
-              <div class="hero-ring absolute -left-8 top-16 h-24 w-24 rounded-full border border-[var(--border-strong)]" />
+              <div
+                class="hero-ring absolute -left-8 top-16 h-24 w-24 rounded-full border border-[var(--border-strong)]" />
 
               <div class="relative z-10 space-y-3">
                 <UCard class="surface-card media-card relative overflow-hidden rounded-[36px] p-3 sm:p-4">
-                  <img
-                    src="/images/mmou-hero.png"
+                  <img src="/images/mmou-hero.png"
                     alt="Hero figure showing a long video strip, a benchmark question, and the performance gap between models on MMOU."
-                    class="h-full w-full rounded-[28px] object-cover"
-                  >
+                    class="h-full w-full rounded-[28px] object-cover">
                 </UCard>
 
                 <UCard class="surface-card rounded-[28px] p-2">
                   <div class="space-y-3 px-4 py-3">
                     <p class="text-[0.68rem] font-bold uppercase tracking-[0.3em] text-[var(--accent-strong)]">
-                      Headline gap
+                      Performance gap
                     </p>
-                <div class="grid gap-2.5 sm:grid-cols-3">
-                      <div
-                        v-for="item in results.slice(0, 3)"
-                        :key="item.name"
-                        class="rounded-2xl border border-[var(--border)] bg-white/72 px-4 py-3"
-                      >
+                    <div class="grid gap-2.5 sm:grid-cols-3">
+                      <div v-for="item in results.slice(0, 3)" :key="item.name"
+                        class="rounded-2xl border border-[var(--border)] bg-white/72 px-4 py-3">
                         <div class="mb-2 flex items-center justify-between gap-3">
                           <p class="text-sm font-semibold text-[var(--ink)]">{{ item.name }}</p>
                           <p class="text-sm font-bold text-[var(--ink)]">{{ item.score }}%</p>
@@ -453,7 +423,7 @@ onBeforeUnmount(() => {
               <UCard class="surface-card relative z-10 max-w-[34rem] rounded-[30px] p-2">
                 <div class="space-y-3 px-4 py-3 sm:px-5 sm:py-4">
                   <p class="text-[0.68rem] font-bold uppercase tracking-[0.3em] text-[var(--accent-strong)]">
-                    Why it is hard
+                    Why MMOU is difficult
                   </p>
                   <p class="text-lg font-semibold leading-8 text-[var(--ink)] sm:text-xl sm:leading-9">
                     One answer can require temporal reasoning, referential grounding, and audio perception at once.
@@ -467,18 +437,16 @@ onBeforeUnmount(() => {
         <section id="overview" class="mx-auto max-w-7xl px-6 py-6 sm:px-8 lg:px-12 lg:py-8">
           <div class="section-heading reveal">
             <UBadge color="neutral" variant="soft" class="section-badge">Overview</UBadge>
-            <h2 class="display-font section-title">A benchmark designed to punish unimodal shortcuts.</h2>
+            <h2 class="display-font section-title">A benchmark designed to expose unimodal shortcuts.</h2>
             <p class="section-copy">
-              MMOU measures long-form omni-modal reasoning under realistic conditions: late evidence, entangled audio and visual cues, multi-skill composition, and hard distractors that discourage guessable multiple choice behavior.
+              MMOU measures long-form omni-modal reasoning under realistic conditions: late evidence, entangled audio
+              and visual cues, multi-skill composition, and hard distractors that discourage guessable multiple choice
+              behavior.
             </p>
           </div>
 
           <div class="mt-8 grid gap-4 lg:grid-cols-3">
-            <UCard
-              v-for="card in narrativeCards"
-              :key="card.title"
-              class="surface-card rounded-[30px] p-2"
-            >
+            <UCard v-for="card in narrativeCards" :key="card.title" class="surface-card rounded-[30px] p-2">
               <div class="space-y-4 px-4 py-4">
                 <p class="text-[0.72rem] font-bold uppercase tracking-[0.28em] text-[var(--accent-strong)]">
                   Signal
@@ -499,11 +467,8 @@ onBeforeUnmount(() => {
                   MMOU forces models to ground answers in full-video evidence.
                 </h3>
                 <div class="grid gap-3 sm:grid-cols-3">
-                  <div
-                    v-for="signal in designSignals"
-                    :key="signal.title"
-                    class="rounded-[22px] border border-[var(--border)] bg-white/72 px-4 py-4"
-                  >
+                  <div v-for="signal in designSignals" :key="signal.title"
+                    class="rounded-[22px] border border-[var(--border)] bg-white/72 px-4 py-4">
                     <p class="text-sm font-semibold text-[var(--ink)]">{{ signal.title }}</p>
                     <p class="mt-2 text-sm/7 text-[var(--muted)]">{{ signal.body }}</p>
                   </div>
@@ -518,13 +483,16 @@ onBeforeUnmount(() => {
                 </p>
                 <p class="text-lg/8 text-[var(--ink)]">
                   Even the best reported closed-source model reaches only
-                  <span class="font-bold text-[var(--accent-strong)]">57.5%</span> accuracy, while the strongest open-source omni model reaches
+                  <span class="font-bold text-[var(--accent-strong)]">57.5%</span> accuracy, while the strongest
+                  open-source omni model reaches
                   <span class="font-bold text-[var(--accent-strong)]">36.3%</span>.
                   Human accuracy is
                   <span class="font-bold text-[var(--accent-strong)]">84.3%</span>.
                 </p>
                 <p class="text-sm/7 text-[var(--muted)]">
-                  That gap persists across domain shifts, long durations, multi-skill questions, and open-ended evaluation. MMOU is not a benchmark for isolated perception - it is a benchmark for synchronized audio-visual reasoning over long-form video.
+                  That gap persists across domain shifts, long durations, multi-skill questions, and open-ended
+                  evaluation. MMOU is not a benchmark for isolated perception - it is a benchmark for synchronized
+                  audio-visual reasoning over long-form video.
                 </p>
                 <div class="rounded-[24px] border border-[var(--border)] bg-[var(--surface-soft)] px-4 py-4">
                   <p class="text-xs uppercase tracking-[0.26em] text-[var(--muted)]">Dataset snapshot</p>
@@ -549,30 +517,31 @@ onBeforeUnmount(() => {
             <UBadge color="neutral" variant="soft" class="section-badge">Coverage</UBadge>
             <h2 class="display-font section-title">Breadth in domains, depth in skills, spread across time.</h2>
             <p class="section-copy">
-              The benchmark combines broad web coverage with carefully controlled annotation choices so the evidence can appear early, late, or anywhere in between.
+              The benchmark combines broad web coverage with carefully controlled annotation choices so the evidence can
+              appear early, late, or anywhere in between.
             </p>
           </div>
 
           <div class="mt-8 space-y-4">
             <UCard class="surface-card media-card rounded-[34px] p-2">
               <figure class="space-y-4 px-2 py-2">
-                <img
-                  src="/images/mmou-coverage-overview.png"
+                <img src="/images/mmou-coverage-overview.png"
                   alt="Full MMOU distribution figure from the paper showing domain coverage, task co-occurrence, answer positions, skill counts, and video duration."
-                  loading="lazy"
-                  class="w-full rounded-[26px] bg-white"
-                >
+                  loading="lazy" class="w-full rounded-[26px] bg-white">
                 <figcaption class="grid gap-3 px-2 pb-1 lg:grid-cols-[1.15fr_0.85fr] lg:items-start">
                   <div>
                     <p class="text-2xl font-semibold tracking-[-0.03em] text-[var(--ink)]">Benchmark overview</p>
                     <p class="mt-2 text-sm/7 text-[var(--muted)]">
-                      This overview figure summarizes MMOU across domain coverage, task co-occurrence, answer localization, skill distribution, and video duration, giving a compact view of the benchmark’s breadth and structure.
+                      This overview figure summarizes MMOU across domain coverage, task co-occurrence, answer
+                      localization, skill distribution, and video duration, giving a compact view of the benchmark’s
+                      breadth and structure.
                     </p>
                   </div>
                   <div class="rounded-[24px] border border-[var(--border)] bg-[var(--surface-soft)] px-4 py-4">
                     <p class="text-xs uppercase tracking-[0.26em] text-[var(--muted)]">Why It Matters</p>
                     <p class="mt-3 text-sm/7 text-[var(--muted)]">
-                      MMOU is designed to reflect long-form, multi-skill audio-visual reasoning rather than narrow shortcut solving, and this figure shows how that difficulty is distributed across the benchmark.
+                      MMOU is designed to reflect long-form, multi-skill audio-visual reasoning rather than narrow
+                      shortcut solving, and this figure shows how that difficulty is distributed across the benchmark.
                     </p>
                   </div>
                 </figcaption>
@@ -582,16 +551,14 @@ onBeforeUnmount(() => {
             <div class="grid gap-4 lg:grid-cols-2">
               <UCard class="surface-card media-card rounded-[30px] p-2">
                 <figure class="space-y-3 px-4 py-4">
-                  <img
-                    src="/images/mmou-domain-distribution.png"
-                    alt="Donut chart showing the domain distribution of videos in MMOU."
-                    loading="lazy"
-                    class="w-full rounded-[24px] bg-white"
-                  >
+                  <img src="/images/mmou-domain-distribution.png"
+                    alt="Donut chart showing the domain distribution of videos in MMOU." loading="lazy"
+                    class="w-full rounded-[24px] bg-white">
                   <figcaption>
                     <p class="text-xl font-semibold tracking-[-0.03em] text-[var(--ink)]">Domain distribution</p>
                     <p class="mt-2 text-sm/7 text-[var(--muted)]">
-                      MMOU covers 10 major domains with especially strong representation in academic lectures, sports, travel, daily life, pranks, and film.
+                      MMOU covers 10 major domains with especially strong representation in academic lectures, sports,
+                      travel, daily life, pranks, and film.
                     </p>
                   </figcaption>
                 </figure>
@@ -599,16 +566,14 @@ onBeforeUnmount(() => {
 
               <UCard class="surface-card media-card rounded-[30px] p-2">
                 <figure class="space-y-3 px-4 py-4">
-                  <img
-                    src="/images/mmou-skill-distribution.png"
-                    alt="Donut chart showing the distribution of skill categories in MMOU."
-                    loading="lazy"
-                    class="w-full rounded-[24px] bg-white"
-                  >
+                  <img src="/images/mmou-skill-distribution.png"
+                    alt="Donut chart showing the distribution of skill categories in MMOU." loading="lazy"
+                    class="w-full rounded-[24px] bg-white">
                   <figcaption>
                     <p class="text-xl font-semibold tracking-[-0.03em] text-[var(--ink)]">Skill distribution</p>
                     <p class="mt-2 text-sm/7 text-[var(--muted)]">
-                      Needle-in-the-haystack, referential grounding, temporal understanding, and sequential reasoning dominate the benchmark, but all 13 skills appear in the final set.
+                      Needle-in-the-haystack, referential grounding, temporal understanding, and sequential reasoning
+                      dominate the benchmark, but all 13 skills appear in the final set.
                     </p>
                   </figcaption>
                 </figure>
@@ -617,23 +582,22 @@ onBeforeUnmount(() => {
 
             <UCard class="surface-card media-card rounded-[30px] p-2">
               <figure class="space-y-3 px-4 py-4">
-                <img
-                  src="/images/mmou-answer-position.png"
-                  alt="Heatmap showing where correct answer evidence appears across the video timeline."
-                  loading="lazy"
-                  class="w-full rounded-[24px] bg-white"
-                >
+                <img src="/images/mmou-answer-position.png"
+                  alt="Heatmap showing where correct answer evidence appears across the video timeline." loading="lazy"
+                  class="w-full rounded-[24px] bg-white">
                 <figcaption class="grid gap-3 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
                   <div>
                     <p class="text-xl font-semibold tracking-[-0.03em] text-[var(--ink)]">Answer evidence spread</p>
                     <p class="mt-2 text-sm/7 text-[var(--muted)]">
-                      The relative position of correct evidence covers the full video timeline, preventing models from overfitting to front-loaded cues.
+                      The relative position of correct evidence covers the full video timeline, preventing models from
+                      overfitting to front-loaded cues.
                     </p>
                   </div>
                   <div class="rounded-[22px] border border-[var(--border)] bg-white/72 px-4 py-4">
                     <p class="text-sm font-semibold text-[var(--ink)]">Temporal coverage</p>
                     <p class="mt-2 text-sm/7 text-[var(--muted)]">
-                      Supporting evidence appears throughout the video timeline, including later segments, making long-horizon grounding and context retention central challenges on MMOU.
+                      Supporting evidence appears throughout the video timeline, including later segments, making
+                      long-horizon grounding and context retention central challenges on MMOU.
                     </p>
                   </div>
                 </figcaption>
@@ -648,7 +612,7 @@ onBeforeUnmount(() => {
                   Domains
                 </p>
                 <h3 class="text-2xl font-semibold tracking-[-0.03em] text-[var(--ink)]">
-                  Real web video, not narrow benchmark clips.
+                  Real-world web video rather than narrowly curated benchmark clips.
                 </h3>
                 <div class="chip-grid">
                   <span v-for="domain in domains" :key="domain" class="info-chip">
@@ -681,27 +645,27 @@ onBeforeUnmount(() => {
             <UBadge color="neutral" variant="soft" class="section-badge">Construction</UBadge>
             <h2 class="display-font section-title">From skill taxonomy to expert review, every stage is explicit.</h2>
             <p class="section-copy">
-              MMOU is built through a structured pipeline that starts with reasoning skills and ends with strict quality control. The benchmark is deliberately engineered rather than scraped and labeled at scale.
+              MMOU is built through a structured pipeline that starts with reasoning skills and ends with strict quality
+              control. The benchmark is deliberately engineered rather than scraped and labeled at scale.
             </p>
           </div>
 
           <div class="mt-8 space-y-4">
             <UCard class="surface-card media-card rounded-[34px] p-2">
               <figure class="space-y-3 px-2 py-2">
-                <img
-                  src="/images/mmou-pipeline.png"
+                <img src="/images/mmou-pipeline.png"
                   alt="Pipeline figure illustrating MMOU construction from skill curation to final benchmark release."
-                  loading="lazy"
-                  class="w-full rounded-[26px] bg-white"
-                >
+                  loading="lazy" class="w-full rounded-[26px] bg-white">
                 <figcaption class="grid gap-3 px-2 pb-1 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
                   <div class="text-sm/7 text-[var(--muted)]">
-                    The paper pipeline moves from skill curation and domain selection to source-video collection, expert question writing, distractor generation, review, and final release packaging.
+                    The construction pipeline moves from skill curation and domain selection to source-video collection,
+                    expert question writing, distractor generation, review, and final release packaging.
                   </div>
                   <div class="rounded-[22px] border border-[var(--border)] bg-[var(--surface-soft)] px-4 py-4">
                     <p class="text-sm font-semibold text-[var(--ink)]">Annotation standard</p>
                     <p class="mt-2 text-sm/7 text-[var(--muted)]">
-                      Each stage reinforces cross-modal rigor, from domain selection and expert question writing to distractor construction, review, and final benchmark release.
+                      Each stage reinforces cross-modal rigor, from domain selection and expert question writing to
+                      distractor construction, review, and final benchmark release.
                     </p>
                   </div>
                 </figcaption>
@@ -709,11 +673,7 @@ onBeforeUnmount(() => {
             </UCard>
 
             <div class="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
-              <UCard
-                v-for="step in pipelineSteps"
-                :key="step.step"
-                class="surface-card rounded-[28px] p-2"
-              >
+              <UCard v-for="step in pipelineSteps" :key="step.step" class="surface-card rounded-[28px] p-2">
                 <div class="flex gap-3 px-4 py-3">
                   <div class="step-badge">{{ step.step }}</div>
                   <div class="space-y-2">
@@ -734,7 +694,8 @@ onBeforeUnmount(() => {
                 MMOU exposes a large gap between pattern matching and real multi-modal understanding.
               </h2>
               <p class="section-copy text-white/72">
-                Skill-level breakdowns, late-evidence analysis, and open-ended scoring all point to the same conclusion: present-day models still struggle with robust audio-visual reasoning over long, messy video.
+                Skill-level breakdowns, late-evidence analysis, and open-ended scoring all point to the same conclusion:
+                present-day models still struggle with robust audio-visual reasoning over long, messy video.
               </p>
             </div>
 
@@ -749,11 +710,8 @@ onBeforeUnmount(() => {
                   </h3>
 
                   <div class="space-y-3">
-                    <div
-                      v-for="item in results"
-                      :key="item.name"
-                      class="rounded-[24px] border border-white/10 bg-white/[0.04] px-4 py-4"
-                    >
+                    <div v-for="item in results" :key="item.name"
+                      class="rounded-[24px] border border-white/10 bg-white/[0.04] px-4 py-4">
                       <div class="flex items-center justify-between gap-4">
                         <div>
                           <p class="text-base font-semibold text-white">{{ item.name }}</p>
@@ -772,16 +730,13 @@ onBeforeUnmount(() => {
 
               <UCard class="surface-card-dark media-card rounded-[32px] p-3">
                 <figure class="space-y-4 px-2 py-2">
-                  <img
-                    src="/images/mmou-radar.png"
-                    alt="Radar chart comparing model performance across MMOU skills."
-                    loading="lazy"
-                    class="w-full rounded-[26px] bg-white object-cover"
-                  >
+                  <img src="/images/mmou-radar.png" alt="Radar chart comparing model performance across MMOU skills."
+                    loading="lazy" class="w-full rounded-[26px] bg-white object-cover">
                   <figcaption class="px-2 pb-2">
                     <p class="text-xl font-semibold text-white">Skill-wise performance remains uneven.</p>
                     <p class="mt-2 text-sm/7 text-white/62">
-                      The paper highlights persistent weaknesses in counting, temporal understanding, and needle-in-the-haystack reasoning even for frontier omni models.
+                      The paper highlights persistent weaknesses in counting, temporal understanding, and
+                      needle-in-the-haystack reasoning even for frontier omni models.
                     </p>
                   </figcaption>
                 </figure>
@@ -791,16 +746,14 @@ onBeforeUnmount(() => {
             <div class="mt-5 grid gap-4 lg:grid-cols-2">
               <UCard class="surface-card-dark media-card rounded-[32px] p-2">
                 <figure class="space-y-3 px-2 py-2">
-                  <img
-                    src="/images/mmou-late-evidence.png"
+                  <img src="/images/mmou-late-evidence.png"
                     alt="Line chart showing that model accuracy drops as answer evidence appears later in long videos."
-                    loading="lazy"
-                    class="w-full rounded-[26px] bg-white object-cover"
-                  >
+                    loading="lazy" class="w-full rounded-[26px] bg-white object-cover">
                   <figcaption class="px-2 pb-2">
-                    <p class="text-xl font-semibold text-white">Late evidence hurts every model.</p>
+                    <p class="text-xl font-semibold text-white">Late evidence degrades performance across models.</p>
                     <p class="mt-2 text-sm/7 text-white/62">
-                      Accuracy steadily degrades as relevant evidence appears later in long videos, revealing a long-horizon context retention problem that current models do not solve.
+                      Accuracy steadily degrades as relevant evidence appears later in long videos, revealing a
+                      long-horizon context retention problem that current models do not solve.
                     </p>
                   </figcaption>
                 </figure>
@@ -808,16 +761,14 @@ onBeforeUnmount(() => {
 
               <UCard class="surface-card-dark media-card rounded-[32px] p-2">
                 <figure class="space-y-3 px-2 py-2">
-                  <img
-                    src="/images/mmou-open-ended.png"
-                    alt="Heatmap showing open-ended evaluation scores by skill on MMOU."
-                    loading="lazy"
-                    class="w-full rounded-[26px] bg-white"
-                  >
+                  <img src="/images/mmou-open-ended.png"
+                    alt="Heatmap showing open-ended evaluation scores by skill on MMOU." loading="lazy"
+                    class="w-full rounded-[26px] bg-white">
                   <figcaption class="px-2 pb-2">
-                    <p class="text-xl font-semibold text-white">Open-ended evaluation stays hard.</p>
+                    <p class="text-xl font-semibold text-white">Open-ended evaluation remains challenging.</p>
                     <p class="mt-2 text-sm/7 text-white/62">
-                      Gemini 2.5 Pro leads the open-ended setting too, but correctness and completeness remain much weaker than fluency and clarity.
+                      Gemini 2.5 Pro leads the open-ended setting too, but correctness and completeness remain much
+                      weaker than fluency and clarity.
                     </p>
                   </figcaption>
                 </figure>
@@ -825,11 +776,8 @@ onBeforeUnmount(() => {
             </div>
 
             <div class="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
-              <div
-                v-for="metric in openEndedMetrics"
-                :key="metric.label"
-                class="rounded-[22px] border border-white/10 bg-white/[0.04] px-4 py-4"
-              >
+              <div v-for="metric in openEndedMetrics" :key="metric.label"
+                class="rounded-[22px] border border-white/10 bg-white/[0.04] px-4 py-4">
                 <p class="text-sm font-semibold text-white">{{ metric.label }}</p>
                 <div class="mt-3 flex items-end justify-between gap-6">
                   <div>
@@ -857,18 +805,19 @@ onBeforeUnmount(() => {
                   MMOU is a diagnostic benchmark for the next generation of long-video multimodal models.
                 </h2>
                 <p class="text-base/8 text-[var(--muted)]">
-                  The benchmark contains 5,000 carefully curated questions over 2,628 long-form web videos with tightly coupled audio and visual content. It spans 13 core reasoning skills, diverse real-world domains, and intentionally difficult answer structures. Across more than 20 evaluated models, the paper shows that current systems still struggle to jointly reason over synchronized audio, visual detail, and long temporal context.
+                  The benchmark contains 5,000 carefully curated questions over 2,628 long-form web videos with tightly
+                  coupled audio and visual content. It spans 13 core reasoning skills, diverse real-world domains, and
+                  intentionally difficult answer structures. Across more than 20 evaluated models, the paper shows that
+                  current systems still struggle to jointly reason over synchronized audio, visual detail, and long
+                  temporal context.
                 </p>
                 <div class="flex flex-wrap gap-3">
                   <UButton color="neutral" class="button-fx rounded-full px-5" @click="openPaper">
                     Read the full PDF
                   </UButton>
-                  <UButton
-                    color="neutral"
-                    variant="outline"
+                  <UButton color="neutral" variant="outline"
                     class="button-fx rounded-full border-[var(--border-strong)] bg-white/65 px-5 text-[var(--ink)]"
-                    @click="jumpTo('#construction')"
-                  >
+                    @click="jumpTo('#construction')">
                     See the pipeline
                   </UButton>
                 </div>
@@ -884,20 +833,24 @@ onBeforeUnmount(() => {
                   <div class="rounded-[24px] border border-[var(--border)] bg-white/72 px-4 py-4">
                     <p class="text-lg font-semibold tracking-[-0.02em] text-[var(--ink)]">What the paper contributes</p>
                     <p class="mt-2 text-sm/7 text-[var(--muted)]">
-                      A new long-video omni-modal benchmark, extensive baseline evaluation, skill-wise analysis, temporal-position analysis, and open-ended scoring.
+                      A new long-video omni-modal benchmark, extensive baseline evaluation, skill-wise analysis,
+                      temporal-position analysis, and open-ended scoring.
                     </p>
                   </div>
                   <div class="rounded-[24px] border border-[var(--border)] bg-white/72 px-4 py-4">
-                    <p class="text-lg font-semibold tracking-[-0.02em] text-[var(--ink)]">What the release will include</p>
+                    <p class="text-lg font-semibold tracking-[-0.02em] text-[var(--ink)]">What the release will include
+                    </p>
                     <p class="mt-2 text-sm/7 text-[var(--muted)]">
-                      The paper states that the benchmark data, evaluation code, and associated metadata will be open-sourced as part of the MMOU release.
+                      The planned release includes benchmark data, evaluation code, and associated metadata for the full
+                      MMOU benchmark.
                     </p>
                   </div>
                 </div>
                 <div class="rounded-[26px] border border-[var(--border)] bg-[var(--surface-soft)] px-4 py-4">
-                  <p class="text-xs uppercase tracking-[0.26em] text-[var(--muted)]">Fast summary</p>
+                  <p class="text-xs uppercase tracking-[0.26em] text-[var(--muted)]">Summary</p>
                   <p class="mt-3 text-lg/8 text-[var(--ink)]">
-                    MMOU is not another short-clip leaderboard. It is a benchmark for models that need to watch, listen, localize, compare, remember, and infer over long, noisy, real-world video.
+                    MMOU is a benchmark for models that must watch, listen, localize, compare, remember, and infer over
+                    long, noisy, real-world video.
                   </p>
                 </div>
               </div>
@@ -907,7 +860,8 @@ onBeforeUnmount(() => {
       </main>
 
       <footer class="mx-auto max-w-7xl px-6 pb-8 sm:px-8 lg:px-12">
-        <div class="footer-panel flex flex-col gap-4 rounded-[28px] px-5 py-5 sm:flex-row sm:items-center sm:justify-between">
+        <div
+          class="footer-panel flex flex-col gap-4 rounded-[28px] px-5 py-5 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p class="text-xs uppercase tracking-[0.28em] text-[var(--muted)]">MMOU</p>
             <p class="mt-2 text-sm text-[var(--muted)]">
@@ -915,19 +869,14 @@ onBeforeUnmount(() => {
             </p>
           </div>
           <div class="flex flex-wrap items-center gap-3">
-            <UButton
-              color="neutral"
-              variant="outline"
+            <UButton color="neutral" variant="outline"
               class="button-fx min-w-[8.75rem] justify-center whitespace-nowrap rounded-full border-[var(--border-strong)] bg-white/68 px-5 text-sm font-semibold text-[var(--ink)]"
-              @click="jumpTo('#hero')"
-            >
+              @click="jumpTo('#hero')">
               Back to top
             </UButton>
-            <UButton
-              color="neutral"
+            <UButton color="neutral"
               class="button-fx min-w-[8.75rem] justify-center whitespace-nowrap rounded-full px-5 text-sm"
-              @click="openPaper"
-            >
+              @click="openPaper">
               Paper PDF
             </UButton>
           </div>
