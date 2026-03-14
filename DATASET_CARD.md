@@ -2,7 +2,7 @@
 pretty_name: MMOU
 language:
   - en
-license: other
+license: apache-2.0
 size_categories:
   - 10K<n<100K
 annotations_creators:
@@ -174,3 +174,9 @@ If you use MMOU, please cite:
   note={Preprint}
 }
 ```
+
+## Dataset Owner(s)
+NVIDIA Corporation
+
+## Dataset Creation Date
+2026/03/14

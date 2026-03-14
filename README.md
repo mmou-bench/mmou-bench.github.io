@@ -2,7 +2,7 @@
 pretty_name: MMOU Videos
 language:
   - en
-license: other
+license: apache-2.0
 tags:
   - multimodal
   - video
@@ -83,9 +83,9 @@ print(captions[0])
 - Use `MMOU_Captions.jsonl` only for the open-ended judge pipeline.
 - Do not feed the captions to the model under evaluation if you want a valid MMOU result.
 
-## Licensing Notes
+## License
 
-This repository is marked as `other` because it distributes references to third-party web-collected media. Please follow the release terms for this repository and respect the rights of the original creators and hosting platforms.
+Apache License 2.0
 
 ## Citation
 
