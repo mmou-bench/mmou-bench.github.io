@@ -290,14 +290,14 @@ body::before {
   backdrop-filter: blur(18px);
 }
 
-.surface-card-dark,
 .results-shell {
-  border: 1px solid rgb(255 255 255 / 0.08);
+  border: 1px solid var(--surface-card-border);
   background:
-    radial-gradient(circle at top left, rgb(16 138 132 / 0.18), transparent 28%),
-    radial-gradient(circle at bottom right, rgb(217 145 60 / 0.12), transparent 30%),
-    linear-gradient(180deg, #121a20 0%, #0d1318 100%);
-  box-shadow: 0 32px 90px rgb(16 23 28 / 0.28);
+    radial-gradient(circle at top left, rgb(16 138 132 / 0.12), transparent 28%),
+    radial-gradient(circle at bottom right, rgb(217 145 60 / 0.1), transparent 30%),
+    linear-gradient(180deg, rgb(255 252 248 / 0.78), rgb(252 245 236 / 0.72) 100%);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(18px);
 }
 
 .results-shell {
@@ -366,18 +366,6 @@ body::before {
   max-width: 52rem;
 }
 
-.section-heading-dark {
-  max-width: 56rem;
-}
-
-.section-heading-dark .section-title {
-  color: white;
-}
-
-.section-heading-dark .section-copy {
-  color: rgb(255 255 255 / 0.72);
-}
-
 .section-badge {
   border-radius: 999px;
   border: 1px solid rgb(255 255 255 / 0.58);
@@ -389,12 +377,6 @@ body::before {
   letter-spacing: 0.28em;
   text-transform: uppercase;
   color: var(--accent-strong);
-}
-
-.section-badge-dark {
-  border-color: rgb(255 255 255 / 0.12);
-  background: rgb(255 255 255 / 0.08);
-  color: var(--accent-soft);
 }
 
 .section-title {
@@ -488,10 +470,6 @@ body::before {
   background: rgb(19 32 40 / 0.1);
 }
 
-.score-track-dark {
-  background: rgb(255 255 255 / 0.09);
-}
-
 .score-fill {
   height: 100%;
   border-radius: inherit;
@@ -532,6 +510,15 @@ body::before {
 
 html.dark .chrome-panel {
   box-shadow: 0 18px 54px rgb(0 0 0 / 0.26);
+}
+
+html.dark .results-shell {
+  border-color: rgb(255 255 255 / 0.08);
+  background:
+    radial-gradient(circle at top left, rgb(16 138 132 / 0.18), transparent 28%),
+    radial-gradient(circle at bottom right, rgb(217 145 60 / 0.12), transparent 30%),
+    linear-gradient(180deg, #121a20 0%, #0d1318 100%);
+  box-shadow: 0 32px 90px rgb(16 23 28 / 0.28);
 }
 
 html.dark .nav-link:hover {
