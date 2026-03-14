@@ -488,7 +488,7 @@ onBeforeUnmount(() => {
 
         <section id="leaderboard"
           class="mx-auto max-w-7xl scroll-mt-28 px-6 py-8 sm:px-8 lg:scroll-mt-32 lg:px-12 lg:py-10">
-          <div class="results-shell">
+          <div>
             <div class="section-heading reveal">
               <UBadge color="neutral" variant="soft" class="section-badge">Leaderboard</UBadge>
               <h2 class="display-font section-title">
@@ -500,7 +500,7 @@ onBeforeUnmount(() => {
               </p>
             </div>
 
-            <UCard class="surface-card mt-8 rounded-[32px] p-2">
+            <UCard class="leaderboard-card mt-8 rounded-[32px] p-2">
               <div class="space-y-4 px-4 py-4 sm:px-5">
                 <h3 class="text-3xl font-semibold tracking-[-0.04em] text-[var(--ink)]">
                   Best reported accuracy remains far below human performance.
