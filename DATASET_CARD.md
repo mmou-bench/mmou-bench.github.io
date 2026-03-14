@@ -30,22 +30,16 @@ tags:
 <p align="center"><strong>Massive Multi-Task Omni Understanding</strong></p>
 
 <p align="center">
-  <a href="https://huggingface.co/datasets/nvidia/MMOU">Main Benchmark</a>
+  <a href="https://huggingface.co/datasets/nvidia/MMOU">HuggingFace</a>
   ·
   <a href="https://huggingface.co/datasets/sonalkum/MMOU-Videos">Video Assets</a>
   ·
-  <strong>Paper:</strong> ArXiv link to be added at public release
-  ·
-  <strong>Code:</strong> GitHub release link to be added if applicable
-  ·
-  <strong>License:</strong> Other / see licensing notes
+  <a href="https://arxiv.org/">Paper</a>
 </p>
 
 <p align="center">
   MMOU evaluates joint audio-visual understanding and reasoning in long, complex real-world videos.
 </p>
-
-![MMOU overview](docs_assets/hero.webp)
 
 ## Dataset Summary
 
@@ -56,6 +50,8 @@ Current models still fail substantially under this setting. Even the strongest s
 > **Accessing the videos**
 >
 > The benchmark annotations, questions, and evaluation logic are documented on `nvidia/MMOU`, but the actual MP4 files and captions are hosted separately at [`sonalkum/MMOU-Videos`](https://huggingface.co/datasets/sonalkum/MMOU-Videos). Researchers who want to run the benchmark need both repositories.
+
+![MMOU overview](docs_assets/hero.webp)
 
 ## Dataset Statistics
 
