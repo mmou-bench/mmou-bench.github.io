@@ -47,10 +47,6 @@ MMOU is a benchmark for evaluating whether multimodal models can jointly reason 
 
 Current models still fail substantially under this setting. Even the strongest systems remain far below human performance when they must integrate both audio and vision across long videos rather than rely on language priors, a single modality, or short-context pattern matching.
 
-> **Accessing the videos**
->
-> The benchmark annotations, questions, and evaluation logic are documented on `nvidia/MMOU`, but the actual MP4 files and captions are hosted separately at [`sonalkum/MMOU-Videos`](https://huggingface.co/datasets/sonalkum/MMOU-Videos). Researchers who want to run the benchmark need both repositories.
-
 ![MMOU overview](docs_assets/hero.webp)
 
 ## Dataset Statistics
@@ -156,27 +152,14 @@ Open-ended evaluation complements MCQ accuracy by testing whether models can gen
 - **Unimodal models fail clearly.** Vision-only, audio-only, and text-only baselines all underperform compared with strong end-to-end omni models, showing that MMOU requires genuine cross-modal reasoning.
 - **Long videos remain a core bottleneck.** Errors persist even when models are otherwise strong on short-context multimodal tasks.
 
-## Limitations and Biases
-
-- MMOU is built from **web-collected videos**, primarily from public online platforms such as YouTube, and therefore inherits biases from online content distribution, creator demographics, language usage, and topic popularity.
-- Existing foundation models may have seen some source videos or related content during pretraining, so **train-test leakage remains a possible concern** despite the benchmark’s difficulty.
-- Source availability may change over time because the benchmark depends on real-world web media.
-- Captions are provided for the open-ended judge pipeline, but they are not part of the intended model input for benchmark evaluation.
-
 ## Accessing the Videos
 
-> **Critical link**
->
 > Download the raw MP4 files and captions from [`sonalkum/MMOU-Videos`](https://huggingface.co/datasets/sonalkum/MMOU-Videos).
 >
 > That companion repository hosts:
 >
 > - the video files required to run MMOU end-to-end
 > - `MMOU_Captions.jsonl` for open-ended judge evaluation
-
-## Licensing Notes
-
-This benchmark card is marked as `other` because MMOU combines benchmark annotations with references to web-collected third-party media. The benchmark annotations and repository metadata should be used according to the terms attached to this release, while the raw source media remain subject to the rights of the original creators and hosting platforms.
 
 ## Citation
 
