@@ -296,6 +296,44 @@ body::before {
   box-shadow: var(--shadow);
 }
 
+.showcase-button {
+  border: 1px solid var(--border);
+  border-radius: 1.25rem;
+  background: var(--chip-bg);
+  padding: 0.85rem 0.9rem;
+}
+
+.showcase-button-active {
+  border-color: rgb(18 122 120 / 0.24);
+  background: linear-gradient(180deg, rgb(18 122 120 / 0.12), rgb(255 255 255 / 0.8));
+}
+
+.showcase-option {
+  border: 1px solid var(--border);
+  border-radius: 1.15rem;
+  background: var(--chip-bg);
+  padding: 0.85rem 0.9rem;
+}
+
+.showcase-option--correct {
+  border-color: rgb(18 122 120 / 0.24);
+  background: rgb(18 122 120 / 0.12);
+}
+
+.showcase-option__letter {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 999px;
+  background: rgb(19 32 40 / 0.08);
+  color: var(--ink);
+  font-size: 0.72rem;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
 .media-card img {
   display: block;
 }
@@ -517,6 +555,16 @@ html.dark .nav-link-active {
 html.dark .nav-link-active:hover {
   border-color: rgb(132 229 215 / 0.28);
   background: linear-gradient(180deg, rgb(50 179 171 / 0.24), rgb(255 255 255 / 0.07));
+}
+
+html.dark .showcase-button-active {
+  border-color: rgb(132 229 215 / 0.24);
+  background: linear-gradient(180deg, rgb(50 179 171 / 0.18), rgb(255 255 255 / 0.06));
+}
+
+html.dark .showcase-option--correct {
+  border-color: rgb(132 229 215 / 0.24);
+  background: rgb(50 179 171 / 0.14);
 }
 
 html.dark .section-badge {
