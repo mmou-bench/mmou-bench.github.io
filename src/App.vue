@@ -452,7 +452,7 @@ onBeforeUnmount(() => {
             <p class="text-xs uppercase tracking-[0.28em] text-[var(--muted)]">MMOU</p>
             <p class="mt-2 text-sm text-[var(--muted)]">
               Massive Multi-Task Omni Understanding for long and complex real-world video reasoning.
-            </p>
+            </p> 
           </div>
           <div class="flex flex-wrap items-center gap-3">
             <UButton color="neutral" variant="outline"
