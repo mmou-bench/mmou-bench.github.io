@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted, ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
+import questionShowcase from './data/questionShowcase.json'
 
 type NavItem = {
   label: string
@@ -19,10 +20,33 @@ type BenchmarkResult = {
   tone: 'human' | 'leader' | 'open' | 'vision' | 'audio' | 'text' | 'muted'
 }
 
+type ShowcaseOption = {
+  letter: string
+  text: string
+}
+
+type ShowcaseExample = {
+  questionId: string
+  videoId: string
+  videoUrl: string
+  startTime: string
+  endTime: string
+  domain: string
+  subdomain: string
+  questionType: string[]
+  channelName: string | null
+  question: string
+  answer: string
+  correctOptionLetter: string
+  correctOptionText: string
+  options: ShowcaseOption[]
+}
+
 const navigation: NavItem[] = [
   { label: 'Abstract', target: '#abstract' },
   { label: 'Figure', target: '#figure-1' },
   { label: 'Benchmark', target: '#benchmark' },
+  { label: 'Examples', target: '#examples' },
   { label: 'Leaderboard', target: '#leaderboard' },
 ]
 
@@ -40,6 +64,8 @@ const colorModeSelectUi = {
 let previousScrollRestoration: ScrollRestoration | null = null
 
 const activeSection = ref(navigation[0]?.target ?? '#abstract')
+const showcaseExamples = questionShowcase as ShowcaseExample[]
+const activeShowcaseIndex = ref(0)
 
 const benchmarkStats: Stat[] = [
   { value: '15,000', label: 'QA pairs' },
@@ -205,6 +231,10 @@ const heroResults = results.filter((item) =>
   ['Human', 'Gemini 2.5 Pro', 'MiniCPM-o 4.5'].includes(item.name),
 )
 
+const activeShowcase = computed(
+  () => showcaseExamples[activeShowcaseIndex.value] ?? showcaseExamples[0],
+)
+
 
 const openPaper = () => {
   if (typeof window !== 'undefined') {
@@ -249,6 +279,19 @@ const jumpTo = (target: string) => {
 }
 
 const scoreStyle = (score: number) => ({ width: `${score}%` })
+
+const timestampToSeconds = (value: string) =>
+  value
+    .split(':')
+    .map((part) => Number(part))
+    .reduce((total, part) => total * 60 + (Number.isFinite(part) ? part : 0), 0)
+
+const embedUrl = (item: ShowcaseExample) => {
+  const start = timestampToSeconds(item.startTime)
+  const params = [`start=${start}`, 'rel=0', 'modestbranding=1']
+
+  return `https://www.youtube.com/embed/${item.videoId}?${params.join('&')}`
+}
 
 const resetInitialScroll = () => {
   if (typeof window === 'undefined') {
@@ -484,6 +527,124 @@ onBeforeUnmount(() => {
               </figure>
             </UCard>
           </div>
+        </section>
+
+        <section id="examples"
+          class="mx-auto max-w-7xl scroll-mt-28 px-6 py-8 sm:px-8 lg:scroll-mt-32 lg:px-12 lg:py-10">
+          <div class="section-heading reveal">
+            <UBadge color="neutral" variant="soft" class="section-badge">Examples</UBadge>
+            <h2 class="display-font section-title">See what MMOU questions actually look like</h2>
+            <p class="section-copy">
+              These twelve examples show how MMOU pairs long-form video clips with 10-option multiple-choice
+              questions, grounded answers, and evidence that can depend on audio, vision, and timing together.
+            </p>
+          </div>
+
+          <div class="mt-6 grid gap-2 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6">
+            <button
+              v-for="(item, index) in showcaseExamples"
+              :key="item.questionId"
+              type="button"
+              :class="['showcase-button', 'button-fx', 'h-full', 'text-left', { 'showcase-button-active': activeShowcaseIndex === index }]"
+              @click="activeShowcaseIndex = index">
+              <p class="text-[0.68rem] font-bold uppercase tracking-[0.24em] text-[var(--accent-strong)]">
+                Example {{ String(index + 1).padStart(2, '0') }}
+              </p>
+              <p class="mt-1.5 text-sm font-semibold leading-5 text-[var(--ink)]">{{ item.domain }}</p>
+              <p class="mt-0.5 text-xs leading-5 text-[var(--muted)]">{{ item.subdomain }}</p>
+            </button>
+          </div>
+
+          <UCard v-if="activeShowcase" class="surface-card mt-5 rounded-[28px] p-2">
+            <div class="grid gap-5 px-4 py-4 sm:px-5 sm:py-5 xl:grid-cols-[minmax(0,1.08fr)_minmax(20rem,0.92fr)] xl:items-start">
+              <div class="space-y-4">
+                <div>
+                  <p class="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--muted)]">Question</p>
+                  <h3 class="mt-2 text-xl font-semibold tracking-[-0.03em] text-[var(--ink)] sm:text-2xl">
+                    {{ activeShowcase.question }}
+                  </h3>
+                </div>
+
+                <div>
+                  <p class="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--muted)]">Options</p>
+                  <div class="mt-3 grid gap-2.5 md:grid-cols-2">
+                    <div
+                      v-for="option in activeShowcase.options"
+                      :key="option.letter"
+                      :class="['showcase-option', { 'showcase-option--correct': option.letter === activeShowcase.correctOptionLetter }]">
+                      <div class="flex items-start gap-2.5">
+                        <span class="showcase-option__letter">{{ option.letter }}</span>
+                        <div>
+                          <p class="text-sm/6 font-medium text-[var(--ink)]">{{ option.text }}</p>
+                          <p v-if="option.letter === activeShowcase.correctOptionLetter"
+                            class="mt-1.5 text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-[var(--accent-strong)]">
+                            Correct option
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="space-y-4">
+                <div class="space-y-2">
+                  <div class="flex flex-wrap gap-2">
+                    <span class="rounded-full border border-[var(--border)] bg-[var(--chip-bg)] px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-[var(--muted)]">
+                      {{ activeShowcase.domain }}
+                    </span>
+                    <span class="rounded-full border border-[var(--border)] bg-[var(--chip-bg)] px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-[var(--muted)]">
+                      {{ activeShowcase.subdomain }}
+                    </span>
+                    <span v-if="activeShowcase.channelName"
+                      class="rounded-full border border-[var(--border)] bg-[var(--chip-bg)] px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-[var(--muted)]">
+                      {{ activeShowcase.channelName }}
+                    </span>
+                    <span class="rounded-full border border-[var(--border)] bg-[var(--chip-bg)] px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-[var(--muted)]">
+                      {{ activeShowcase.startTime }}-{{ activeShowcase.endTime }}
+                    </span>
+                  </div>
+
+                  <div v-if="activeShowcase.questionType.length" class="flex flex-wrap gap-2">
+                    <span
+                      v-for="type in activeShowcase.questionType"
+                      :key="type"
+                      class="rounded-full border border-[var(--border)] bg-[var(--chip-bg)] px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-[var(--accent-strong)]">
+                      {{ type }}
+                    </span>
+                  </div>
+                </div>
+
+                <div>
+                  <div class="flex flex-wrap items-center justify-between gap-3">
+                    <p class="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--muted)]">Video clip</p>
+                    <a :href="activeShowcase.videoUrl" target="_blank" rel="noreferrer"
+                      class="text-sm font-semibold text-[var(--accent-strong)] hover:underline">
+                      Open on YouTube
+                    </a>
+                  </div>
+                  <div class="mt-3 aspect-video overflow-hidden rounded-[22px] border border-[var(--border)] bg-black">
+                    <iframe
+                      :src="embedUrl(activeShowcase)"
+                      :title="`MMOU example ${activeShowcase.videoId}`"
+                      class="h-full w-full"
+                      loading="lazy"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowfullscreen
+                      referrerpolicy="strict-origin-when-cross-origin" />
+                  </div>
+                </div>
+
+                <div class="rounded-[20px] border border-[var(--border)] bg-[var(--chip-bg)] px-4 py-4">
+                  <p class="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--muted)]">Ground-truth answer</p>
+                  <p class="mt-2 text-sm/7 text-[var(--ink)]">{{ activeShowcase.answer }}</p>
+                  <p class="mt-2 text-sm/6 text-[var(--muted)]">
+                    Correct choice: {{ activeShowcase.correctOptionLetter }}. {{ activeShowcase.correctOptionText }}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </UCard>
         </section>
 
         <section id="leaderboard"
