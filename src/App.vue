@@ -42,79 +42,43 @@ let previousScrollRestoration: ScrollRestoration | null = null
 const activeSection = ref(navigation[0]?.target ?? '#abstract')
 
 const benchmarkStats: Stat[] = [
-  { value: '5,000', label: 'QA pairs' },
-  { value: '2,628', label: 'web videos' },
-  { value: '656s', label: 'avg. duration' },
+  { value: '15,000', label: 'QA pairs' },
+  { value: '9.3k', label: 'web videos' },
+  { value: '711.6s', label: 'avg. duration' },
   { value: '10', label: 'domains' },
+  { value: '36', label: 'subcategories' },
   { value: '13', label: 'skills' },
   { value: '20+', label: 'models tested' },
 ]
-
-const domains = [
-  'Academic Lectures',
-  'Sports',
-  'Travel',
-  'Video Games',
-  'Daily Life',
-  'Pranks',
-  'Film',
-  'Animation',
-  'Music',
-  'News',
-]
-
-const skills = [
-  'Needle-in-the-haystack',
-  'Referential grounding',
-  'Temporal understanding',
-  'Sequential reasoning',
-  'Context understanding',
-  'Subscene understanding',
-  'Inference',
-  'Counting',
-  'Comparative reasoning',
-  'Audio-visual stitching',
-  'Tackling spurious correlations',
-  'Object interaction reasoning',
-  'General holistic reasoning',
-]
-
 
 const results: BenchmarkResult[] = [
   {
     name: 'Human',
     group: 'Reference upper bound',
     score: 84.3,
-    note: 'Expert annotators remain well ahead of every evaluated model.',
+    note: 'Human evaluators remain well ahead of every evaluated model.',
     tone: 'human',
   },
   {
     name: 'Gemini 2.5 Pro',
     group: 'Best closed-source omni model',
-    score: 57.5,
-    note: 'The strongest overall baseline still misses more than 4 in 10 questions.',
+    score: 64.2,
+    note: 'The strongest overall baseline still misses more than one third of the benchmark.',
     tone: 'leader',
   },
   {
-    name: 'Qwen3-Omni-30B-Instruct',
+    name: 'MiniCPM-o 4.5',
     group: 'Best open-source omni model',
-    score: 36.3,
-    note: 'Open models lag far behind the strongest proprietary baseline.',
+    score: 46.8,
+    note: 'The strongest open-source system still trails Gemini 2.5 Pro by 17.4 points.',
     tone: 'open',
   },
   {
     name: 'Qwen3-VL-32B-Instruct',
     group: 'Vision-only baseline',
-    score: 38.3,
-    note: 'Strong visual reasoning is still insufficient when audio carries critical evidence.',
+    score: 44.0,
+    note: 'Strong visual reasoning still falls short when audio carries essential evidence.',
     tone: 'vision',
-  },
-  {
-    name: 'Qwen3-Omni-30B (audio only)',
-    group: 'Audio-only baseline',
-    score: 35.6,
-    note: 'Audio alone also collapses on questions that need grounded visual context.',
-    tone: 'audio',
   },
   {
     name: 'GPT-5.2',
@@ -124,9 +88,16 @@ const results: BenchmarkResult[] = [
     tone: 'text',
   },
   {
+    name: 'Qwen3-Omni-30B-A3B',
+    group: 'Audio-only baseline',
+    score: 35.6,
+    note: 'Audio alone also collapses on questions that need grounded visual context.',
+    tone: 'audio',
+  },
+  {
     name: 'Audio Flamingo 3',
     group: 'Audio-only reference',
-    score: 15.6,
+    score: 17.7,
     note: 'Pure audio reasoning fails on most of MMOU.',
     tone: 'muted',
   },
@@ -229,7 +200,7 @@ onBeforeUnmount(() => {
         <div
           class="chrome-panel mx-auto flex max-w-7xl items-center justify-between gap-3 rounded-full px-4 py-2 sm:px-6">
           <button type="button" class="brand-button flex items-center gap-3 text-left" @click="jumpTo('#abstract')">
-            <img src="/images/mmou-logo.png" alt="MMOU logo" class="h-11 w-auto object-contain sm:h-12">
+            <img src="/images/logo.webp" alt="MMOU logo" class="h-11 w-auto object-contain sm:h-12">
             <div class="hidden sm:block">
               <p class="text-xs uppercase tracking-[0.32em] text-[var(--muted)]">MMOU</p>
               <p class="text-sm font-semibold text-[var(--ink)]">Massive Multi-Task Omni Understanding</p>
@@ -262,7 +233,7 @@ onBeforeUnmount(() => {
             <UCard class="surface-card rounded-[34px] p-2">
               <div class="space-y-5 px-4 py-5 sm:px-6 sm:py-6">
                 <div class="flex items-start gap-4">
-                  <img src="/images/mmou-logo.png" alt="MMOU logo" class="h-14 w-auto object-contain sm:h-16">
+                  <img src="/images/logo.webp" alt="MMOU logo" class="h-14 w-auto object-contain sm:h-16">
                   <div class="min-w-0">
                     <p class="text-[0.72rem] font-bold uppercase tracking-[0.3em] text-[var(--accent-strong)]">
                       MMOU
@@ -277,10 +248,11 @@ onBeforeUnmount(() => {
                 </p>
                 <p class="text-base/8 text-[var(--muted)] sm:text-lg/8">
                   MMOU introduces a large-scale benchmark for long-form omni-modal reasoning over real-world web videos.
-                  It contains 5,000 expert-curated question-answer pairs from 2,628 videos, covering 10 domains and 13
-                  reasoning skills. Across more than 20 evaluated models, the paper shows that current systems still
-                  struggle to jointly use audio, visual detail, and long-range temporal context, remaining well below
-                  human performance on difficult real-world video understanding.
+                  MMOU contains 15,000 carefully curated question-answer pairs drawn from more than 9,000
+                  long-form videos across 10 domains, 36 fine-grained subcategories, and 13 reasoning skills. Across
+                  20+ evaluated models, the best closed-source system reaches 64.2% accuracy, the best open-source
+                  model 46.8%, and humans 84.3%, underscoring how far current systems remain from robust audio-visual
+                  reasoning.
                 </p>
                 <div class="flex flex-wrap gap-3">
                   <UButton color="neutral" class="button-fx rounded-full px-5" @click="openPaper">
@@ -304,13 +276,13 @@ onBeforeUnmount(() => {
             <h2 class="display-font section-title">A single MMOU question can require audio, vision, and temporal reasoning together.</h2>
             <p class="section-copy">
               The main paper figure illustrates the benchmark format: long input video, temporally localized evidence,
-              cross-modal reasoning requirements, and a clear performance gap between humans and current models.
+              cross-modal reasoning requirements, and the performance gap between humans and current models.
             </p>
           </div>
 
           <UCard class="surface-card media-card mt-8 rounded-[34px] p-2">
             <figure class="space-y-4 px-2 py-2">
-              <img src="/images/mmou-hero.png"
+              <img src="/images/hero.webp"
                 alt="Main MMOU figure showing a long video example, multi-skill reasoning requirements, and the performance gap between three representative models."
                 class="w-full rounded-[26px] bg-white" loading="eager">
               <figcaption class="grid gap-4 px-2 pb-2 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
@@ -319,7 +291,7 @@ onBeforeUnmount(() => {
                   <p class="mt-2 text-sm/7 text-[var(--muted)]">
                     This example highlights why MMOU is difficult: answering one question can require tracking events
                     over time, grounding referenced objects and people, and using audio cues that are inseparable from
-                    the visual context.
+                    the visual context. Gemini 2.5 Pro still trails human performance by 20.1 points.
                   </p>
                 </div>
                 <div class="grid gap-2.5 sm:grid-cols-3">
@@ -345,60 +317,69 @@ onBeforeUnmount(() => {
             <UBadge color="neutral" variant="soft" class="section-badge">Benchmark</UBadge>
             <h2 class="display-font section-title">Benchmark overview</h2>
             <p class="section-copy">
-              MMOU combines long-form video duration, broad domain coverage, and multi-skill question design in one
-              benchmark for real audio-visual understanding.
+              MMOU combines long-form video duration, broad domain coverage, multi-skill question design, and a
+              deliberately hard 10-option evaluation setup in one benchmark for real audio-visual understanding. The
+              figure below consolidates the benchmark's category mix, reasoning structure, answer placement, and
+              duration profile.
             </p>
           </div>
 
-          <div class="mt-8 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+          <div class="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             <div v-for="stat in benchmarkStats" :key="stat.label" class="metric-pill reveal rounded-[24px] px-4 py-4">
               <p class="text-2xl font-extrabold tracking-[-0.04em] text-[var(--ink)]">{{ stat.value }}</p>
               <p class="mt-1 text-sm font-medium text-[var(--muted)]">{{ stat.label }}</p>
             </div>
           </div>
 
-          <div class="mt-4 grid gap-4 lg:grid-cols-2">
+          <div class="mt-4">
             <UCard class="surface-card media-card rounded-[30px] p-2">
-              <div class="space-y-4 px-4 py-4">
-                <figure class="space-y-3">
-                  <img src="/images/mmou-domain-distribution.png"
-                    alt="Donut chart showing the distribution of MMOU videos across major domains." loading="lazy"
-                    class="w-full rounded-[24px] bg-white">
-                  <figcaption>
-                    <p class="text-xl font-semibold tracking-[-0.03em] text-[var(--ink)]">Domains</p>
-                    <p class="mt-2 text-sm/7 text-[var(--muted)]">
-                      MMOU spans academic lectures, sports, travel, games, daily-life footage, pranks, film,
-                      animation, music, and news.
+              <figure class="space-y-5 px-4 py-4">
+                <img src="/images/domains_skills.webp"
+                  alt="Composite MMOU benchmark figure showing video category distribution, reasoning skill co-occurrence, relative answer position, question distribution across skills, and video duration distribution."
+                  loading="lazy" class="w-full rounded-[24px] bg-white">
+                <figcaption class="grid gap-4 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
+                  <div>
+                    <p class="text-xl font-semibold tracking-[-0.03em] text-[var(--ink)]">
+                      Domains, skills, answer placement, and duration in one figure
                     </p>
-                  </figcaption>
-                </figure>
-                <div class="chip-grid">
-                  <span v-for="domain in domains" :key="domain" class="info-chip">
-                    {{ domain }}
-                  </span>
-                </div>
-              </div>
-            </UCard>
-
-            <UCard class="surface-card media-card rounded-[30px] p-2">
-              <div class="space-y-4 px-4 py-4">
-                <figure class="space-y-3">
-                  <img src="/images/mmou-skill-distribution.png"
-                    alt="Donut chart showing the distribution of MMOU reasoning skills." loading="lazy"
-                    class="w-full rounded-[24px] bg-white">
-                  <figcaption>
-                    <p class="text-xl font-semibold tracking-[-0.03em] text-[var(--ink)]">Skills</p>
                     <p class="mt-2 text-sm/7 text-[var(--muted)]">
-                      Questions cover 13 reasoning skills, with multiple skills often active in the same example.
+                      The summary figure shows MMOU's 10-domain coverage, how reasoning skills overlap inside the same
+                      question, where evidence tends to appear over a video's timeline, and how video lengths
+                      distribute across the benchmark.
                     </p>
-                  </figcaption>
-                </figure>
-                <div class="chip-grid chip-grid-wide">
-                  <span v-for="skill in skills" :key="skill" class="info-chip info-chip-wide">
-                    {{ skill }}
-                  </span>
-                </div>
-              </div>
+                  </div>
+                  <div class="grid gap-3 sm:grid-cols-2">
+                    <div class="rounded-[22px] border border-[var(--border)] bg-[var(--chip-bg)] px-4 py-4">
+                      <p class="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--muted)]">Domains</p>
+                      <p class="mt-2 text-sm/7 text-[var(--ink)]">
+                        Coverage spans 10 major categories and 36 fine-grained subcategories, from academic lectures
+                        and sports to music, news, pranks, and everyday footage.
+                      </p>
+                    </div>
+                    <div class="rounded-[22px] border border-[var(--border)] bg-[var(--chip-bg)] px-4 py-4">
+                      <p class="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--muted)]">Skill mix</p>
+                      <p class="mt-2 text-sm/7 text-[var(--ink)]">
+                        Each question is tagged with one or more of 13 skill types, averaging 2.71 skills per QA, so
+                        compound reasoning is the norm rather than the exception.
+                      </p>
+                    </div>
+                    <div class="rounded-[22px] border border-[var(--border)] bg-[var(--chip-bg)] px-4 py-4">
+                      <p class="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--muted)]">Construction</p>
+                      <p class="mt-2 text-sm/7 text-[var(--ink)]">
+                        Eleven expert annotators first wrote open-ended QA pairs, then converted them into 10-option
+                        multiple-choice items with nine hard distractors per question.
+                      </p>
+                    </div>
+                    <div class="rounded-[22px] border border-[var(--border)] bg-[var(--chip-bg)] px-4 py-4">
+                      <p class="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--muted)]">Timeline</p>
+                      <p class="mt-2 text-sm/7 text-[var(--ink)]">
+                        Answer evidence averages 302.28 seconds into the video, while source clips range from 7 seconds
+                        to 121 minutes and demand long-horizon context retention.
+                      </p>
+                    </div>
+                  </div>
+                </figcaption>
+              </figure>
             </UCard>
           </div>
         </section>
@@ -413,7 +394,7 @@ onBeforeUnmount(() => {
               </h2>
               <p class="section-copy text-white/72">
                 Human performance remains clearly ahead of the best reported models, with the strongest closed-source
-                and open-source systems still leaving a large gap on long-form omni-modal reasoning.
+                system at 64.2% and the best open-source system at 46.8% on long-form omni-modal reasoning.
               </p>
             </div>
 

@@ -141,7 +141,7 @@ body::before {
 }
 
 .ambient-backdrop__layer--orbits {
-  background-image: url("/images/mmou-ambient-orbits.svg");
+  background-image: url("/svg/ambient-orbits.svg");
   background-position: center top 1rem;
   background-size: min(88rem, 112vw) auto;
   opacity: 0.12;
@@ -149,8 +149,8 @@ body::before {
 
 .ambient-backdrop__layer--constellation {
   background-image:
-    url("/images/mmou-ambient-constellation.svg"),
-    url("/images/mmou-ambient-constellation.svg");
+    url("/svg/ambient-constellation.svg"),
+    url("/svg/ambient-constellation.svg");
   background-position:
     left -4rem top 4rem,
     right -3rem top 26rem;
@@ -163,8 +163,8 @@ body::before {
 
 .ambient-backdrop__layer--waveform {
   background-image:
-    url("/images/mmou-ambient-waveform.svg"),
-    url("/images/mmou-ambient-waveform.svg");
+    url("/svg/ambient-waveform.svg"),
+    url("/svg/ambient-waveform.svg");
   background-position:
     left 1rem top 19rem,
     right 2rem top 47rem;
@@ -177,8 +177,8 @@ body::before {
 
 .ambient-backdrop__layer--timeline {
   background-image:
-    url("/images/mmou-ambient-timeline.svg"),
-    url("/images/mmou-ambient-timeline.svg");
+    url("/svg/ambient-timeline.svg"),
+    url("/svg/ambient-timeline.svg");
   background-position:
     left -1.25rem top 14rem,
     right -0.75rem top 62rem;
@@ -190,7 +190,7 @@ body::before {
 }
 
 .ambient-backdrop__layer--signals {
-  background-image: url("/images/mmou-ambient-signals.svg");
+  background-image: url("/svg/ambient-signals.svg");
   background-position: center top 8rem;
   background-repeat: repeat-y;
   background-size: min(40rem, 52vw) auto;
@@ -212,7 +212,6 @@ body::before {
 .surface-card,
 .footer-panel,
 .metric-pill,
-.info-chip,
 .section-badge {
   transition:
     background 180ms ease,
@@ -413,26 +412,6 @@ body::before {
   color: var(--muted);
 }
 
-.chip-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.6rem;
-}
-
-.chip-grid-wide {
-  gap: 0.7rem;
-}
-
-.info-chip {
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  padding: 0.72rem 0.9rem;
-  background: var(--chip-bg);
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: var(--ink);
-}
-
 .mode-select-trigger {
   border-radius: 999px;
   border: 1px solid var(--border-strong);
@@ -484,10 +463,6 @@ body::before {
 }
 
 .mode-select-item {
-  border-radius: 1rem;
-}
-
-.info-chip-wide {
   border-radius: 1rem;
 }
 
