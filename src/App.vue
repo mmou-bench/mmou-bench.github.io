@@ -20,6 +20,16 @@ type BenchmarkResult = {
   tone: 'human' | 'leader' | 'open' | 'vision' | 'audio' | 'text' | 'muted'
 }
 
+type Author = {
+  name: string
+  markers: string[]
+}
+
+type Affiliation = {
+  id: string
+  label: string
+}
+
 type ShowcaseOption = {
   letter: string
   text: string
@@ -75,6 +85,44 @@ const benchmarkStats: Stat[] = [
   { value: '36', label: 'subcategories' },
   { value: '13', label: 'skills' },
   { value: '20+', label: 'models tested' },
+]
+
+const authors: Author[] = [
+  { name: 'Arushi Goel', markers: ['1', '†', '*'] },
+  { name: 'Sreyan Ghosh', markers: ['1', '2', '†', '*'] },
+  { name: 'Vatsal Agarwal', markers: ['2', '*'] },
+  { name: 'Nishit Anand', markers: ['2', '*'] },
+  { name: 'Kaousheik Jayakumar', markers: ['2', '‡'] },
+  { name: 'Lasha Koroshinadze', markers: ['2', '‡'] },
+  { name: 'Yao Xu', markers: ['1'] },
+  { name: 'Katie Lyons', markers: ['1'] },
+  { name: 'James Case', markers: ['1'] },
+  { name: 'Karan Sapra', markers: ['1'] },
+  { name: 'Kevin J. Shih', markers: ['1'] },
+  { name: 'Siddharth Gururani', markers: ['1'] },
+  { name: 'Abhinav Shrivastava', markers: ['2'] },
+  { name: 'Ramani Duraiswami', markers: ['2'] },
+  { name: 'Dinesh Manocha', markers: ['2'] },
+  { name: 'Andrew Tao', markers: ['1'] },
+  { name: 'Bryan Catanzaro', markers: ['1'] },
+  { name: 'Mohammad Shoeybi', markers: ['1'] },
+  { name: 'Wei Ping', markers: ['1'] },
+]
+
+const affiliations: Affiliation[] = [
+  { id: '1', label: 'NVIDIA, USA' },
+  { id: '2', label: 'University of Maryland, College Park, USA' },
+]
+
+const authorNotes = [
+  '† Project leads; ordering decided by a coin toss',
+  '* Equal contribution',
+  '‡ Significant technical contribution',
+]
+
+const correspondence = [
+  { name: 'Sreyan Ghosh', email: 'sreyang@nvidia.com' },
+  { name: 'Arushi Goel', email: 'arushig@nvidia.com' },
 ]
 
 const results: BenchmarkResult[] = [
@@ -238,7 +286,13 @@ const activeShowcase = computed(
 
 const openPaper = () => {
   if (typeof window !== 'undefined') {
-    window.open('/mmou.pdf', '_blank', 'noopener,noreferrer')
+    window.open('https://arxiv.org/abs/2603.14145v1', '_blank', 'noopener,noreferrer')
+  }
+}
+
+const openDataset = () => {
+  if (typeof window !== 'undefined') {
+    window.open('https://huggingface.co/datasets/nvidia/MMOU', '_blank', 'noopener,noreferrer')
   }
 }
 
@@ -363,7 +417,7 @@ onBeforeUnmount(() => {
           <div class="flex items-center gap-2">
             <UButton color="neutral" class="button-fx shrink-0 whitespace-nowrap rounded-full px-5 text-sm"
               @click="openPaper">
-              Open PDF
+              Open Paper
             </UButton>
             <UColorModeSelect color="neutral" variant="outline" size="xs" class="mode-select w-[6.75rem] sm:w-[7.25rem]"
               :content="{ side: 'bottom', align: 'end', sideOffset: 10 }" :ui="colorModeSelectUi" />
@@ -388,6 +442,34 @@ onBeforeUnmount(() => {
                     </h1>
                   </div>
                 </div>
+                <div
+                  class="rounded-[26px] border border-[var(--border)] bg-white/48 px-4 py-4 text-center shadow-[0_12px_36px_rgb(16_23_28_/_0.05)] dark:bg-[rgb(22_29_35_/_0.7)]">
+                  <div class="flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-sm font-semibold text-[var(--ink)] sm:text-[1.02rem]">
+                    <span v-for="author in authors" :key="author.name" class="whitespace-nowrap">
+                      {{ author.name }}<sup class="ml-1 text-[0.72em] font-bold text-[var(--accent-strong)]">{{
+                        author.markers.join(' ')
+                      }}</sup>
+                    </span>
+                  </div>
+                  <div class="mt-3 flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-xs font-medium text-[var(--muted)]">
+                    <span v-for="affiliation in affiliations" :key="affiliation.id">
+                      <span class="font-bold text-[var(--ink)]">{{ affiliation.id }}</span> {{ affiliation.label }}
+                    </span>
+                  </div>
+                  <p class="mt-2 text-xs text-[var(--muted)]">
+                    {{ authorNotes.join(' · ') }}
+                  </p>
+                  <p class="mt-2 text-xs text-[var(--muted)]">
+                    Correspondence to:
+                    <span v-for="(contact, index) in correspondence" :key="contact.email">
+                      <template v-if="index > 0">, </template>
+                      <a :href="`mailto:${contact.email}`" class="font-semibold text-[var(--accent-strong)]">
+                        {{ contact.name }}
+                      </a>
+                      ({{ contact.email }})
+                    </span>
+                  </p>
+                </div>
                 <p class="text-[0.72rem] font-bold uppercase tracking-[0.3em] text-[var(--accent-strong)]">
                   Abstract
                 </p>
@@ -401,7 +483,12 @@ onBeforeUnmount(() => {
                 </p>
                 <div class="flex flex-wrap gap-3">
                   <UButton color="neutral" class="button-fx rounded-full px-5" @click="openPaper">
-                    Open PDF
+                    Open Paper
+                  </UButton>
+                  <UButton color="neutral" variant="outline"
+                    class="button-fx rounded-full border-[var(--border-strong)] bg-white/65 px-5 text-[var(--ink)]"
+                    @click="openDataset">
+                    Hugging Face Dataset
                   </UButton>
                   <UButton color="neutral" variant="outline"
                     class="button-fx rounded-full border-[var(--border-strong)] bg-white/65 px-5 text-[var(--ink)]"
@@ -409,6 +496,14 @@ onBeforeUnmount(() => {
                     View Figure
                   </UButton>
                 </div>
+                <p class="text-sm/7 text-[var(--muted)]">
+                  Dataset release on
+                  <a href="https://huggingface.co/datasets/nvidia/MMOU" target="_blank" rel="noreferrer"
+                    class="font-semibold text-[var(--accent-strong)] underline decoration-[0.08em] underline-offset-4">
+                    Hugging Face
+                  </a>
+                  with 15,000 expert-authored QA pairs across 9,038 long-form web videos.
+                </p>
               </div>
             </UCard>
           </div>
@@ -707,7 +802,7 @@ onBeforeUnmount(() => {
             <UButton color="neutral"
               class="button-fx min-w-[8.75rem] justify-center whitespace-nowrap rounded-full px-5 text-sm"
               @click="openPaper">
-              Open PDF
+              Open Paper
             </UButton>
           </div>
         </div>
